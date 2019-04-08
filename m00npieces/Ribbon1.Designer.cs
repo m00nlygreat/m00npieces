@@ -35,10 +35,7 @@
         private void InitializeComponent()
         {
             this.tab1 = this.Factory.CreateRibbonTab();
-            this.group1 = this.Factory.CreateRibbonGroup();
             this.group2 = this.Factory.CreateRibbonGroup();
-            this.btnSwap = this.Factory.CreateRibbonButton();
-            this.btnMatchSize = this.Factory.CreateRibbonButton();
             this.btnTL = this.Factory.CreateRibbonToggleButton();
             this.btnML = this.Factory.CreateRibbonToggleButton();
             this.btnBL = this.Factory.CreateRibbonToggleButton();
@@ -48,9 +45,13 @@
             this.btnTR = this.Factory.CreateRibbonToggleButton();
             this.btnMR = this.Factory.CreateRibbonToggleButton();
             this.btnBR = this.Factory.CreateRibbonToggleButton();
+            this.group1 = this.Factory.CreateRibbonGroup();
+            this.btnSwap = this.Factory.CreateRibbonButton();
+            this.btnMatchSize = this.Factory.CreateRibbonButton();
+            this.button1 = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
-            this.group1.SuspendLayout();
             this.group2.SuspendLayout();
+            this.group1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
@@ -60,13 +61,6 @@
             this.tab1.Groups.Add(this.group1);
             this.tab1.Label = "m00npieces";
             this.tab1.Name = "tab1";
-            // 
-            // group1
-            // 
-            this.group1.Items.Add(this.btnSwap);
-            this.group1.Items.Add(this.btnMatchSize);
-            this.group1.Label = "Swap";
-            this.group1.Name = "group1";
             // 
             // group2
             // 
@@ -81,6 +75,69 @@
             this.group2.Items.Add(this.btnBR);
             this.group2.Label = "Anchor";
             this.group2.Name = "group2";
+            // 
+            // btnTL
+            // 
+            this.btnTL.Checked = true;
+            this.btnTL.Label = "◇";
+            this.btnTL.Name = "btnTL";
+            this.btnTL.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnTL_Click);
+            // 
+            // btnML
+            // 
+            this.btnML.Label = "◇";
+            this.btnML.Name = "btnML";
+            this.btnML.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnML_Click);
+            // 
+            // btnBL
+            // 
+            this.btnBL.Label = "◇";
+            this.btnBL.Name = "btnBL";
+            this.btnBL.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnBL_Click);
+            // 
+            // btnTC
+            // 
+            this.btnTC.Label = "◇";
+            this.btnTC.Name = "btnTC";
+            this.btnTC.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnTC_Click);
+            // 
+            // btnMC
+            // 
+            this.btnMC.Label = "◇";
+            this.btnMC.Name = "btnMC";
+            this.btnMC.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnMC_Click);
+            // 
+            // btnBC
+            // 
+            this.btnBC.Label = "◇";
+            this.btnBC.Name = "btnBC";
+            this.btnBC.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnBC_Click);
+            // 
+            // btnTR
+            // 
+            this.btnTR.Label = "◇";
+            this.btnTR.Name = "btnTR";
+            this.btnTR.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnTR_Click);
+            // 
+            // btnMR
+            // 
+            this.btnMR.Label = "◇";
+            this.btnMR.Name = "btnMR";
+            this.btnMR.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnMR_Click);
+            // 
+            // btnBR
+            // 
+            this.btnBR.Label = "◇";
+            this.btnBR.Name = "btnBR";
+            this.btnBR.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnBR_Click);
+            // 
+            // group1
+            // 
+            this.group1.Items.Add(this.btnSwap);
+            this.group1.Items.Add(this.btnMatchSize);
+            this.group1.Items.Add(this.button1);
+            this.group1.Label = "Swap";
+            this.group1.Name = "group1";
             // 
             // btnSwap
             // 
@@ -101,50 +158,11 @@
             this.btnMatchSize.ShowImage = true;
             this.btnMatchSize.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnMatchSize_Click);
             // 
-            // btnTL
+            // button1
             // 
-            this.btnTL.Label = "○";
-            this.btnTL.Name = "btnTL";
-            // 
-            // btnML
-            // 
-            this.btnML.Label = "○";
-            this.btnML.Name = "btnML";
-            // 
-            // btnBL
-            // 
-            this.btnBL.Label = "○";
-            this.btnBL.Name = "btnBL";
-            // 
-            // btnTC
-            // 
-            this.btnTC.Label = "○";
-            this.btnTC.Name = "btnTC";
-            // 
-            // btnMC
-            // 
-            this.btnMC.Label = "○";
-            this.btnMC.Name = "btnMC";
-            // 
-            // btnBC
-            // 
-            this.btnBC.Label = "○";
-            this.btnBC.Name = "btnBC";
-            // 
-            // btnTR
-            // 
-            this.btnTR.Label = "○";
-            this.btnTR.Name = "btnTR";
-            // 
-            // btnMR
-            // 
-            this.btnMR.Label = "○";
-            this.btnMR.Name = "btnMR";
-            // 
-            // btnBR
-            // 
-            this.btnBR.Label = "○";
-            this.btnBR.Name = "btnBR";
+            this.button1.Label = "button1";
+            this.button1.Name = "button1";
+            this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button1_Click);
             // 
             // Ribbon1
             // 
@@ -154,10 +172,10 @@
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.Ribbon1_Load);
             this.tab1.ResumeLayout(false);
             this.tab1.PerformLayout();
-            this.group1.ResumeLayout(false);
-            this.group1.PerformLayout();
             this.group2.ResumeLayout(false);
             this.group2.PerformLayout();
+            this.group1.ResumeLayout(false);
+            this.group1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -178,6 +196,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnTR;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnMR;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnBR;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
     }
 
     partial class ThisRibbonCollection

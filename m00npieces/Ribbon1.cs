@@ -16,10 +16,10 @@ namespace m00npieces
 {
     public partial class Ribbon1
     {
-        
+        int intAnchor;
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
-
+            btnAnchor_Clicked(0); // 초기 Anchor 설정
         }
 
         private void btnSwap_Clicked(object sender, RibbonControlEventArgs e)
@@ -65,7 +65,7 @@ namespace m00npieces
             }
             else
             {
-                return;
+               
             }
 
         }
@@ -75,7 +75,7 @@ namespace m00npieces
             var curSlide = Globals.ThisAddIn.Application.ActiveWindow.View.Slide;
             var shapes = curSlide.Shapes;
 
-            for (int i = 1; i <= shapes.Count; i++)
+            for (int i = 1; i <= shapes.Count; i++) // 현재 슬라이드의 모든 도형과, 선택된 도형을 ==연산자로 비교해, 선택된 도형이 슬라이드 내에 몇 번 도형인지 알아냄.
             {
                 if (shapes[i] == shape)
                 {
@@ -84,6 +84,23 @@ namespace m00npieces
                 }
             }
             return intOrderInSlide;
+        }
+        public int btnAnchor_Clicked(int whichclicked) // 앵커 버튼을 클릭했을 때, 설정을 바꿈.
+        {
+            RibbonToggleButton[] btnsAnchor = new RibbonToggleButton[9] { btnTL, btnTC, btnTR, btnML, btnMC, btnMR, btnBL, btnBC, btnBR }; // 앵커를 설정하는 9개 버튼을 일단 배열에 담아봄.
+            for (int i = 0; i <= btnsAnchor.Length - 1; i++) 
+            {
+                if (i == whichclicked)
+                {
+                    btnsAnchor[i].Label = "◆";
+                }
+                else
+                {
+                    btnsAnchor[i].Label = "◇";
+                    btnsAnchor[i].Checked = false;
+                }
+            }
+            return whichclicked + 1;
         }
 
         private void BtnMatchSize_Click(object sender, RibbonControlEventArgs e) // 사이즈 매치
@@ -95,6 +112,56 @@ namespace m00npieces
                 sel.ShapeRange[2].Width = sel.ShapeRange[1].Width; // 이걸로 잘 될까 싶지만 놀랍도록 잘 된다.
                 sel.ShapeRange[2].Height = sel.ShapeRange[1].Height;
             }
+        }
+        #region
+        private void BtnTL_Click(object sender, RibbonControlEventArgs e) // 앵커 버튼 누를 때마다, 함수 호출해서 값 설정
+        {
+            intAnchor = btnAnchor_Clicked(0);
+        }
+
+        private void BtnTC_Click(object sender, RibbonControlEventArgs e)
+        {
+            intAnchor = btnAnchor_Clicked(1);
+        }
+
+        private void BtnTR_Click(object sender, RibbonControlEventArgs e)
+        {
+            intAnchor = btnAnchor_Clicked(2);
+        }
+
+        private void BtnML_Click(object sender, RibbonControlEventArgs e)
+        {
+            intAnchor = btnAnchor_Clicked(3);
+        }
+
+        private void BtnMC_Click(object sender, RibbonControlEventArgs e)
+        {
+            intAnchor = btnAnchor_Clicked(4);
+        }
+
+        private void BtnMR_Click(object sender, RibbonControlEventArgs e)
+        {
+            intAnchor = btnAnchor_Clicked(5);
+        }
+
+        private void BtnBL_Click(object sender, RibbonControlEventArgs e)
+        {
+            intAnchor = btnAnchor_Clicked(6);
+        }
+
+        private void BtnBC_Click(object sender, RibbonControlEventArgs e)
+        {
+            intAnchor = btnAnchor_Clicked(7);
+        }
+
+        private void BtnBR_Click(object sender, RibbonControlEventArgs e)
+        {
+            intAnchor = btnAnchor_Clicked(8);
+        }
+        #endregion
+        private void Button1_Click(object sender, RibbonControlEventArgs e) // 변수 체크용 메세지 박스 띄우는 임시 버튼
+        {
+            MessageBox.Show(intAnchor.ToString());
         }
     }
     //PowerPoint._Application myPPT = Globals.ThisAddIn.Application;

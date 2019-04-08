@@ -188,6 +188,7 @@
       <DependentUpon>Ribbon1.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="m00npieces_1_TemporaryKey.pfx" />
+    <None Include="m00npieces_2_TemporaryKey.pfx" />
     <None Include="m00npieces_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -234,10 +235,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>m00npieces_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>m00npieces_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>93F0638B984AEBA39859F8618333C6A0E9D4EF3D</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>64A0CFD4361E1B9F9B1CADC11DC5ABCD571D7816</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
