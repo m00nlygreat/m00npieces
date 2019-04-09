@@ -34,8 +34,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group2 = this.Factory.CreateRibbonGroup();
+            this.group1 = this.Factory.CreateRibbonGroup();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnTL = this.Factory.CreateRibbonToggleButton();
             this.btnML = this.Factory.CreateRibbonToggleButton();
             this.btnBL = this.Factory.CreateRibbonToggleButton();
@@ -45,10 +48,8 @@
             this.btnTR = this.Factory.CreateRibbonToggleButton();
             this.btnMR = this.Factory.CreateRibbonToggleButton();
             this.btnBR = this.Factory.CreateRibbonToggleButton();
-            this.group1 = this.Factory.CreateRibbonGroup();
             this.btnSwap = this.Factory.CreateRibbonButton();
             this.btnMatchSize = this.Factory.CreateRibbonButton();
-            this.button1 = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group2.SuspendLayout();
             this.group1.SuspendLayout();
@@ -75,6 +76,18 @@
             this.group2.Items.Add(this.btnBR);
             this.group2.Label = "Anchor";
             this.group2.Name = "group2";
+            // 
+            // group1
+            // 
+            this.group1.Items.Add(this.btnSwap);
+            this.group1.Items.Add(this.btnMatchSize);
+            this.group1.Label = "Do what";
+            this.group1.Name = "group1";
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
             // 
             // btnTL
             // 
@@ -131,14 +144,6 @@
             this.btnBR.Name = "btnBR";
             this.btnBR.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnBR_Click);
             // 
-            // group1
-            // 
-            this.group1.Items.Add(this.btnSwap);
-            this.group1.Items.Add(this.btnMatchSize);
-            this.group1.Items.Add(this.button1);
-            this.group1.Label = "Swap";
-            this.group1.Name = "group1";
-            // 
             // btnSwap
             // 
             this.btnSwap.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -157,12 +162,6 @@
             this.btnMatchSize.Name = "btnMatchSize";
             this.btnMatchSize.ShowImage = true;
             this.btnMatchSize.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnMatchSize_Click);
-            // 
-            // button1
-            // 
-            this.button1.Label = "button1";
-            this.button1.Name = "button1";
-            this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button1_Click);
             // 
             // Ribbon1
             // 
@@ -193,10 +192,10 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnTC;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnMC;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnBC;
-        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnTR;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnMR;
+        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnTR;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnBR;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 
     partial class ThisRibbonCollection

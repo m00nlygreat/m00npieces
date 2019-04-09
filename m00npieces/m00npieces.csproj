@@ -189,6 +189,7 @@
     </EmbeddedResource>
     <None Include="m00npieces_1_TemporaryKey.pfx" />
     <None Include="m00npieces_2_TemporaryKey.pfx" />
+    <None Include="m00npieces_3_TemporaryKey.pfx" />
     <None Include="m00npieces_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -235,10 +236,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>m00npieces_2_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>m00npieces_3_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>64A0CFD4361E1B9F9B1CADC11DC5ABCD571D7816</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>E5C2BE110AF6D242E63368EF25ABDFC851A56B7D</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
