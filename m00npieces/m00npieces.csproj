@@ -236,10 +236,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>m00npieces_3_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>m00npieces_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>E5C2BE110AF6D242E63368EF25ABDFC851A56B7D</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>FFEEA822849518702C53EED67A9B41FD5DE64390</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -259,6 +259,41 @@ namespace m00npieces
             intAnchorPoint = btnAnchor_Clicked(8);
         }
         #endregion
+
+        private void Button1_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        private void btnFontAntiAlias_Clicked(object sender, RibbonControlEventArgs e)
+        {
+            var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+            //if (sel.ShapeRange.HasTextFrame==MsoTriState.msoTrue)
+            //{
+                sel.TextRange2.Font.Line.Visible = MsoTriState.msoTrue;
+                sel.TextRange2.Font.Line.Transparency = 1;
+            //}
+
+            //sel.TextRange2.Font.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
+            //if (sel.ShapeRange.HasTable == MsoTriState.msoTrue)
+            //{
+            //    var tab = Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Table;
+            //    int col = sel.ShapeRange.Table.Columns.Count;
+            //    int row = sel.ShapeRange.Table.Rows.Count;
+            //    for (int i = 1; i <= row - 1; i++)
+            //    {
+            //        for (int j=1;j<= col - 1; j++)
+            //        {
+            //            tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Bold = MsoTriState.msoFalse;
+            //            tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Line.Visible = MsoTriState.msoTrue;
+            //            tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Line.Transparency = 1;
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //}
+        }
     }
     //PowerPoint._Application myPPT = Globals.ThisAddIn.Application;
     //PowerPoint.Slide curSlide = myPPT.ActiveWindow.View.Slide;

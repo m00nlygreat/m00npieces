@@ -38,6 +38,7 @@
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group2 = this.Factory.CreateRibbonGroup();
             this.group1 = this.Factory.CreateRibbonGroup();
+            this.group3 = this.Factory.CreateRibbonGroup();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnTL = this.Factory.CreateRibbonToggleButton();
             this.btnML = this.Factory.CreateRibbonToggleButton();
@@ -50,9 +51,11 @@
             this.btnBR = this.Factory.CreateRibbonToggleButton();
             this.btnSwap = this.Factory.CreateRibbonButton();
             this.btnMatchSize = this.Factory.CreateRibbonButton();
+            this.btnFontAntiAlias = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group2.SuspendLayout();
             this.group1.SuspendLayout();
+            this.group3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
@@ -60,6 +63,7 @@
             this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
             this.tab1.Groups.Add(this.group2);
             this.tab1.Groups.Add(this.group1);
+            this.tab1.Groups.Add(this.group3);
             this.tab1.Label = "m00npieces";
             this.tab1.Name = "tab1";
             // 
@@ -83,6 +87,12 @@
             this.group1.Items.Add(this.btnMatchSize);
             this.group1.Label = "Do what";
             this.group1.Name = "group1";
+            // 
+            // group3
+            // 
+            this.group3.Items.Add(this.btnFontAntiAlias);
+            this.group3.Label = "et cetra";
+            this.group3.Name = "group3";
             // 
             // notifyIcon1
             // 
@@ -163,6 +173,12 @@
             this.btnMatchSize.ShowImage = true;
             this.btnMatchSize.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnMatchSize_Click);
             // 
+            // btnFontAntiAlias
+            // 
+            this.btnFontAntiAlias.Label = "글씨를 예쁘게";
+            this.btnFontAntiAlias.Name = "btnFontAntiAlias";
+            this.btnFontAntiAlias.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnFontAntiAlias_Clicked);
+            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -175,6 +191,8 @@
             this.group2.PerformLayout();
             this.group1.ResumeLayout(false);
             this.group1.PerformLayout();
+            this.group3.ResumeLayout(false);
+            this.group3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -196,6 +214,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnTR;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnBR;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group3;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnFontAntiAlias;
     }
 
     partial class ThisRibbonCollection
