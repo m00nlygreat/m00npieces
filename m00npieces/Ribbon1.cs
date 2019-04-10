@@ -22,57 +22,55 @@ namespace m00npieces
             intAnchorPoint = btnAnchor_Clicked(0); // 초기 Anchor 설정
             Globals.ThisAddIn.Application.SlideSelectionChanged += SlideNoOnEdtbx; // 슬라이드 이동(포커스 이동)시 슬라이드 번호를 에디트 박스에 입력
         }
-
-
-
         private void btnSwap_Clicked(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
-
-            if (sel.ShapeRange.Count == 2) // 2개를 선택했을때만 작동.
+            try
             {
-                float firstTop;
-                float firstLeft;
-                float secondTop;
-                float secondLeft;
-                GetAnchored(sel.ShapeRange[1], sel.ShapeRange[2], out firstTop, out firstLeft);
-                GetAnchored(sel.ShapeRange[2], sel.ShapeRange[1], out secondTop, out secondLeft);
-                sel.ShapeRange[1].Top = secondTop; // 서로의 위치를 바꾸는 부분
-                sel.ShapeRange[1].Left = secondLeft;
-                sel.ShapeRange[2].Top = firstTop;
-                sel.ShapeRange[2].Left = firstLeft;
-
-                int intFirstZorder = WhereInSlide(sel.ShapeRange[1]); // 선택한 두 도형의 최초 순서를 변수에 담는다. 이름은 ZOrder이나 ZOrderPosition 속성과는 관련없는 커스텀 구현된 위치임.
-                int intSecondZorder = WhereInSlide(sel.ShapeRange[2]);
-                if (intFirstZorder < intSecondZorder) // First냐, Second냐의 차이는 클릭 순서에 따라 달라진다. 암튼 뭐가 더 위에 있느냐에 따라, 앞으로 보내거나 뒤로 보내야 하는 방향이 달라짐.
+                if (sel.ShapeRange.Count == 2) // 2개를 선택했을때만 작동.
                 {
-                    for (int i = intFirstZorder; i < intSecondZorder; i++)
-                    {
-                        sel.ShapeRange[1].ZOrder(MsoZOrderCmd.msoBringForward);
-                    }
-                    for (int i = intSecondZorder - 1; i > intFirstZorder; i--) // 두번째 도형의 순서를 옮길 때는, 한 번 덜 가야 한다. 왜냐면 첫번째 도형이 이미 두 번째 도형의 위치까지 와 있어서 서로 순서가 교체되었으므로.
-                    {
-                        sel.ShapeRange[2].ZOrder(MsoZOrderCmd.msoSendBackward);
-                    }
+                    float firstTop;
+                    float firstLeft;
+                    float secondTop;
+                    float secondLeft;
+                    GetAnchored(sel.ShapeRange[1], sel.ShapeRange[2], out firstTop, out firstLeft);
+                    GetAnchored(sel.ShapeRange[2], sel.ShapeRange[1], out secondTop, out secondLeft);
+                    sel.ShapeRange[1].Top = secondTop; // 서로의 위치를 바꾸는 부분
+                    sel.ShapeRange[1].Left = secondLeft;
+                    sel.ShapeRange[2].Top = firstTop;
+                    sel.ShapeRange[2].Left = firstLeft;
 
-                }
-                else // 같은 내용을 방향 바꿔서 보냄.
-                {
-                    for (int i = intFirstZorder; i > intSecondZorder; i--)
+                    int intFirstZorder = WhereInSlide(sel.ShapeRange[1]); // 선택한 두 도형의 최초 순서를 변수에 담는다. 이름은 ZOrder이나 ZOrderPosition 속성과는 관련없는 커스텀 구현된 위치임.
+                    int intSecondZorder = WhereInSlide(sel.ShapeRange[2]);
+                    if (intFirstZorder < intSecondZorder) // First냐, Second냐의 차이는 클릭 순서에 따라 달라진다. 암튼 뭐가 더 위에 있느냐에 따라, 앞으로 보내거나 뒤로 보내야 하는 방향이 달라짐.
                     {
-                        sel.ShapeRange[1].ZOrder(MsoZOrderCmd.msoSendBackward);
+                        for (int i = intFirstZorder; i < intSecondZorder; i++)
+                        {
+                            sel.ShapeRange[1].ZOrder(MsoZOrderCmd.msoBringForward);
+                        }
+                        for (int i = intSecondZorder - 1; i > intFirstZorder; i--) // 두번째 도형의 순서를 옮길 때는, 한 번 덜 가야 한다. 왜냐면 첫번째 도형이 이미 두 번째 도형의 위치까지 와 있어서 서로 순서가 교체되었으므로.
+                        {
+                            sel.ShapeRange[2].ZOrder(MsoZOrderCmd.msoSendBackward);
+                        }
+
                     }
-                    for (int i = intSecondZorder + 1; i < intFirstZorder; i++)
+                    else // 같은 내용을 방향 바꿔서 보냄.
                     {
-                        sel.ShapeRange[2].ZOrder(MsoZOrderCmd.msoBringForward);
+                        for (int i = intFirstZorder; i > intSecondZorder; i--)
+                        {
+                            sel.ShapeRange[1].ZOrder(MsoZOrderCmd.msoSendBackward);
+                        }
+                        for (int i = intSecondZorder + 1; i < intFirstZorder; i++)
+                        {
+                            sel.ShapeRange[2].ZOrder(MsoZOrderCmd.msoBringForward);
+                        }
                     }
                 }
             }
-            else
+            catch
             {
-               
-            }
 
+            }
         }
         public int WhereInSlide(PowerPoint.Shape shape) //ZOrderPosition이 아닌, 실제 앞으로 보내기/뒤로 보내기 시 작동하는 선택 도형의 슬라이드 내 레이어 위치를 구한다.
         {
@@ -111,15 +109,22 @@ namespace m00npieces
         private void BtnMatchSize_Click(object sender, RibbonControlEventArgs e) // 사이즈 매치
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
-            for (int i=2;i <= sel.ShapeRange.Count; i++)
+            try
             {
-                float secondTop;
-                float secondLeft;
-                MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft); // 앵커를 기준으로, 변경된 크기일때 옮겨야 하는 Top/Left값 산출
-                sel.ShapeRange[i].Top = secondTop; // 크기변경은 먼저 위치를 옮기고 해야된다.
-                sel.ShapeRange[i].Left = secondLeft;
-                sel.ShapeRange[i].Width = sel.ShapeRange[1].Width; // 이걸로 잘 될까 싶지만 놀랍도록 잘 된다.
-                sel.ShapeRange[i].Height = sel.ShapeRange[1].Height;
+                for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                {
+                    float secondTop;
+                    float secondLeft;
+                    MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft); // 앵커를 기준으로, 변경된 크기일때 옮겨야 하는 Top/Left값 산출
+                    sel.ShapeRange[i].Top = secondTop; // 크기변경은 먼저 위치를 옮기고 해야된다.
+                    sel.ShapeRange[i].Left = secondLeft;
+                    sel.ShapeRange[i].Width = sel.ShapeRange[1].Width; // 이걸로 잘 될까 싶지만 놀랍도록 잘 된다.
+                    sel.ShapeRange[i].Height = sel.ShapeRange[1].Height;
+                }
+            }
+            catch
+            {
+
             }
 
         }
@@ -311,11 +316,11 @@ namespace m00npieces
             try
             {
                 int slideNo = Convert.ToInt32(edtGoToSlide.Text);
-                Globals.ThisAddIn.Application.ActivePresentation.Slides[slideNo].Select();
+                Globals.ThisAddIn.Application.ActivePresentation.Slides[slideNo].Select(); 
             }
-            catch
+            catch // 에러시 그냥 원래 슬라이드 번호 다시 입력
             {
-                MessageBox.Show("잘못된 페이지 번호입니다.");
+                edtGoToSlide.Text = Globals.ThisAddIn.Application.ActiveWindow.View.Slide.SlideIndex.ToString();
             }
         }
         private void SlideNoOnEdtbx(PowerPoint.SlideRange SldRange) // 슬라이드 이동시, 현재 슬라이드 번호를 에디트 박스에 넣어줌 ㅎ.ㅎ

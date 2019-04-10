@@ -191,6 +191,7 @@
     <None Include="m00npieces_2_TemporaryKey.pfx" />
     <None Include="m00npieces_3_TemporaryKey.pfx" />
     <None Include="m00npieces_4_TemporaryKey.pfx" />
+    <None Include="m00npieces_5_TemporaryKey.pfx" />
     <None Include="m00npieces_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -243,10 +244,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>m00npieces_4_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>m00npieces_5_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>A5379404410A1C18ABFE5DEC99CDD894AB5C04D3</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>C34285AB3F0496F5138976F16DAA2502CC132489</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

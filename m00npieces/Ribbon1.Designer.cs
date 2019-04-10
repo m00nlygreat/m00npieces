@@ -35,10 +35,10 @@
         private void InitializeComponent()
         {
             this.tab1 = this.Factory.CreateRibbonTab();
-            this.group2 = this.Factory.CreateRibbonGroup();
-            this.separator1 = this.Factory.CreateRibbonSeparator();
-            this.group3 = this.Factory.CreateRibbonGroup();
+            this.group1 = this.Factory.CreateRibbonGroup();
             this.edtGoToSlide = this.Factory.CreateRibbonEditBox();
+            this.group2 = this.Factory.CreateRibbonGroup();
+            this.group3 = this.Factory.CreateRibbonGroup();
             this.btnTL = this.Factory.CreateRibbonToggleButton();
             this.btnML = this.Factory.CreateRibbonToggleButton();
             this.btnBL = this.Factory.CreateRibbonToggleButton();
@@ -48,14 +48,15 @@
             this.btnTR = this.Factory.CreateRibbonToggleButton();
             this.btnMR = this.Factory.CreateRibbonToggleButton();
             this.btnBR = this.Factory.CreateRibbonToggleButton();
-            this.group1 = this.Factory.CreateRibbonGroup();
             this.btnSwap = this.Factory.CreateRibbonButton();
             this.btnMatchSize = this.Factory.CreateRibbonButton();
             this.btnFontAntiAlias = this.Factory.CreateRibbonButton();
+            this.group4 = this.Factory.CreateRibbonGroup();
             this.tab1.SuspendLayout();
+            this.group1.SuspendLayout();
             this.group2.SuspendLayout();
             this.group3.SuspendLayout();
-            this.group1.SuspendLayout();
+            this.group4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
@@ -63,11 +64,27 @@
             this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
             this.tab1.Groups.Add(this.group1);
             this.tab1.Groups.Add(this.group2);
+            this.tab1.Groups.Add(this.group4);
             this.tab1.Groups.Add(this.group3);
             this.tab1.KeyTip = "X";
             this.tab1.Label = "m00npieces";
             this.tab1.Name = "tab1";
             this.tab1.Position = this.Factory.RibbonPosition.BeforeOfficeId("TabHome");
+            // 
+            // group1
+            // 
+            this.group1.Items.Add(this.edtGoToSlide);
+            this.group1.Label = "General";
+            this.group1.Name = "group1";
+            // 
+            // edtGoToSlide
+            // 
+            this.edtGoToSlide.KeyTip = "X";
+            this.edtGoToSlide.Label = "Go to";
+            this.edtGoToSlide.Name = "edtGoToSlide";
+            this.edtGoToSlide.SizeString = "9999";
+            this.edtGoToSlide.Text = null;
+            this.edtGoToSlide.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EdtGoToSlide_changed);
             // 
             // group2
             // 
@@ -80,30 +97,15 @@
             this.group2.Items.Add(this.btnTR);
             this.group2.Items.Add(this.btnMR);
             this.group2.Items.Add(this.btnBR);
-            this.group2.Items.Add(this.separator1);
-            this.group2.Items.Add(this.btnSwap);
-            this.group2.Items.Add(this.btnMatchSize);
-            this.group2.Label = "Shape";
+            this.group2.KeyTip = "S";
+            this.group2.Label = "Anchor";
             this.group2.Name = "group2";
-            // 
-            // separator1
-            // 
-            this.separator1.Name = "separator1";
             // 
             // group3
             // 
             this.group3.Items.Add(this.btnFontAntiAlias);
             this.group3.Label = "et cetra";
             this.group3.Name = "group3";
-            // 
-            // edtGoToSlide
-            // 
-            this.edtGoToSlide.KeyTip = "X";
-            this.edtGoToSlide.Label = "Go to";
-            this.edtGoToSlide.Name = "edtGoToSlide";
-            this.edtGoToSlide.SizeString = "9999";
-            this.edtGoToSlide.Text = null;
-            this.edtGoToSlide.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EdtGoToSlide_changed);
             // 
             // btnTL
             // 
@@ -169,17 +171,11 @@
             this.btnBR.Name = "btnBR";
             this.btnBR.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnBR_Click);
             // 
-            // group1
-            // 
-            this.group1.Items.Add(this.edtGoToSlide);
-            this.group1.Label = "General";
-            this.group1.Name = "group1";
-            // 
             // btnSwap
             // 
             this.btnSwap.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnSwap.Image = global::m00npieces.Properties.Resources.swap__1_;
-            this.btnSwap.KeyTip = "S";
+            this.btnSwap.KeyTip = "C";
             this.btnSwap.Label = "교체";
             this.btnSwap.Name = "btnSwap";
             this.btnSwap.ShowImage = true;
@@ -190,7 +186,7 @@
             // 
             this.btnMatchSize.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnMatchSize.Image = global::m00npieces.Properties.Resources.matchsize;
-            this.btnMatchSize.KeyTip = "C";
+            this.btnMatchSize.KeyTip = "V";
             this.btnMatchSize.Label = "크기맞춤";
             this.btnMatchSize.Name = "btnMatchSize";
             this.btnMatchSize.ShowImage = true;
@@ -205,6 +201,13 @@
             this.btnFontAntiAlias.ShowImage = true;
             this.btnFontAntiAlias.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnFontAntiAlias_Clicked);
             // 
+            // group4
+            // 
+            this.group4.Items.Add(this.btnSwap);
+            this.group4.Items.Add(this.btnMatchSize);
+            this.group4.Label = "Shape";
+            this.group4.Name = "group4";
+            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -213,12 +216,14 @@
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.Ribbon1_Load);
             this.tab1.ResumeLayout(false);
             this.tab1.PerformLayout();
+            this.group1.ResumeLayout(false);
+            this.group1.PerformLayout();
             this.group2.ResumeLayout(false);
             this.group2.PerformLayout();
             this.group3.ResumeLayout(false);
             this.group3.PerformLayout();
-            this.group1.ResumeLayout(false);
-            this.group1.PerformLayout();
+            this.group4.ResumeLayout(false);
+            this.group4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -240,9 +245,9 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnBR;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group3;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnFontAntiAlias;
-        internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator1;
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox edtGoToSlide;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
     }
 
     partial class ThisRibbonCollection
