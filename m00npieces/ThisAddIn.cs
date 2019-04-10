@@ -13,7 +13,7 @@ namespace m00npieces
         //PowerPoint.ShapeRange shape = Application.ActivePresentation.
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-
+            
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)

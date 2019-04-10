@@ -190,6 +190,7 @@
     <None Include="m00npieces_1_TemporaryKey.pfx" />
     <None Include="m00npieces_2_TemporaryKey.pfx" />
     <None Include="m00npieces_3_TemporaryKey.pfx" />
+    <None Include="m00npieces_4_TemporaryKey.pfx" />
     <None Include="m00npieces_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -228,6 +229,12 @@
   <ItemGroup>
     <None Include="Resources\matchsize.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\glitter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\glit.png" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -236,10 +243,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>m00npieces_2_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>m00npieces_4_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>FFEEA822849518702C53EED67A9B41FD5DE64390</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>A5379404410A1C18ABFE5DEC99CDD894AB5C04D3</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

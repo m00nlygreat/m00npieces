@@ -63,6 +63,16 @@ namespace m00npieces.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap glit {
+            get {
+                object obj = ResourceManager.GetObject("glit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap matchsize {
             get {
                 object obj = ResourceManager.GetObject("matchsize", resourceCulture);

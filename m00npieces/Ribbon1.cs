@@ -20,7 +20,10 @@ namespace m00npieces
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
             intAnchorPoint = btnAnchor_Clicked(0); // 초기 Anchor 설정
+            Globals.ThisAddIn.Application.SlideSelectionChanged += SlideNoOnEdtbx; // 슬라이드 이동(포커스 이동)시 슬라이드 번호를 에디트 박스에 입력
         }
+
+
 
         private void btnSwap_Clicked(object sender, RibbonControlEventArgs e)
         {
@@ -270,8 +273,16 @@ namespace m00npieces
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             //if (sel.ShapeRange.HasTextFrame==MsoTriState.msoTrue)
             //{
+            try
+            {
                 sel.TextRange2.Font.Line.Visible = MsoTriState.msoTrue;
                 sel.TextRange2.Font.Line.Transparency = 1;
+            }
+
+            catch
+            {
+
+            }
             //}
 
             //sel.TextRange2.Font.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
@@ -294,7 +305,25 @@ namespace m00npieces
             //{
             //}
         }
+
+        private void EdtGoToSlide_changed(object sender, RibbonControlEventArgs e) // 슬라이드 번호 입력시, 해당 슬라이드로 이동
+        {
+            try
+            {
+                int slideNo = Convert.ToInt32(edtGoToSlide.Text);
+                Globals.ThisAddIn.Application.ActivePresentation.Slides[slideNo].Select();
+            }
+            catch
+            {
+                MessageBox.Show("잘못된 페이지 번호입니다.");
+            }
+        }
+        private void SlideNoOnEdtbx(PowerPoint.SlideRange SldRange) // 슬라이드 이동시, 현재 슬라이드 번호를 에디트 박스에 넣어줌 ㅎ.ㅎ
+        {
+            edtGoToSlide.Text = SldRange.SlideNumber.ToString();
+        }
     }
+
     //PowerPoint._Application myPPT = Globals.ThisAddIn.Application;
     //PowerPoint.Slide curSlide = myPPT.ActiveWindow.View.Slide;
 }
