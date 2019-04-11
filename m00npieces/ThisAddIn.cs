@@ -10,7 +10,6 @@ namespace m00npieces
 {
     public partial class ThisAddIn
     {
-        //PowerPoint.ShapeRange shape = Application.ActivePresentation.
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             

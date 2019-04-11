@@ -282,6 +282,7 @@ namespace m00npieces
             {
                 sel.TextRange2.Font.Line.Visible = MsoTriState.msoTrue;
                 sel.TextRange2.Font.Line.Transparency = 1;
+                Globals.ThisAddIn.Application.StartNewUndoEntry();
             }
 
             catch
@@ -290,25 +291,7 @@ namespace m00npieces
             }
             //}
 
-            //sel.TextRange2.Font.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
-            //if (sel.ShapeRange.HasTable == MsoTriState.msoTrue)
-            //{
-            //    var tab = Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Table;
-            //    int col = sel.ShapeRange.Table.Columns.Count;
-            //    int row = sel.ShapeRange.Table.Rows.Count;
-            //    for (int i = 1; i <= row - 1; i++)
-            //    {
-            //        for (int j=1;j<= col - 1; j++)
-            //        {
-            //            tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Bold = MsoTriState.msoFalse;
-            //            tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Line.Visible = MsoTriState.msoTrue;
-            //            tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Line.Transparency = 1;
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //}
+
         }
 
         private void EdtGoToSlide_changed(object sender, RibbonControlEventArgs e) // 슬라이드 번호 입력시, 해당 슬라이드로 이동
@@ -327,7 +310,39 @@ namespace m00npieces
         {
             edtGoToSlide.Text = SldRange.SlideNumber.ToString();
         }
+
+        private void Button1_Click_1(object sender, RibbonControlEventArgs e)
+        {
+            var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+            //sel.TextRange2.Font.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
+            //if (sel.ShapeRange.HasTable == MsoTriState.msoTrue)
+            //{
+            try
+            {
+                var tab = Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Table;
+                int col = sel.ShapeRange.Table.Columns.Count;
+                int row = sel.ShapeRange.Table.Rows.Count;
+                for (int i = 1; i <= row; i++)
+                {
+                    for (int j = 1; j <= col; j++)
+                    {
+                        tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Bold = MsoTriState.msoTrue;
+                        tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Line.Visible = MsoTriState.msoTrue;
+                        tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Line.Transparency = 1;
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+            //}
+            //else
+            //{
+            //}
+        }
     }
+
 
     //PowerPoint._Application myPPT = Globals.ThisAddIn.Application;
     //PowerPoint.Slide curSlide = myPPT.ActiveWindow.View.Slide;
