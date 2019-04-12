@@ -314,32 +314,7 @@ namespace m00npieces
         private void Button1_Click_1(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
-            //sel.TextRange2.Font.Line.ForeColor.RGB = System.Drawing.Color.Black.ToArgb();
-            //if (sel.ShapeRange.HasTable == MsoTriState.msoTrue)
-            //{
-            try
-            {
-                var tab = Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Table;
-                int col = sel.ShapeRange.Table.Columns.Count;
-                int row = sel.ShapeRange.Table.Rows.Count;
-                for (int i = 1; i <= row; i++)
-                {
-                    for (int j = 1; j <= col; j++)
-                    {
-                        tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Bold = MsoTriState.msoTrue;
-                        tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Line.Visible = MsoTriState.msoTrue;
-                        tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Line.Transparency = 1;
-                    }
-                }
-            }
-            catch
-            {
 
-            }
-            //}
-            //else
-            //{
-            //}
         }
     }
 
@@ -347,5 +322,24 @@ namespace m00npieces
     //PowerPoint._Application myPPT = Globals.ThisAddIn.Application;
     //PowerPoint.Slide curSlide = myPPT.ActiveWindow.View.Slide;
 }
+// 표의 텍스트 외곽선주기. 외 않데? 는지 도통 모르겄따
+//try
+//  {
+//      var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+//      var tab = Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Table;
+//      int col = sel.ShapeRange.Table.Columns.Count;
+//      int row = sel.ShapeRange.Table.Rows.Count;
+//      for (int i = 1; i <= row; i++)
+//      {
+//          for (int j = 1; j <= col; j++)
+//          {
+//              tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Bold = MsoTriState.msoTrue;
+//              tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Line.Visible = MsoTriState.msoTrue;
+//              tab.Cell(i, j).Shape.TextFrame2.TextRange.Font.Line.Transparency = 1;
+//          }
+//      }
+//  }
+//  catch
+//  {
 
-
+//  }
