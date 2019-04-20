@@ -34,11 +34,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ribbon1));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.edtGoToSlide = this.Factory.CreateRibbonEditBox();
             this.group2 = this.Factory.CreateRibbonGroup();
             this.group4 = this.Factory.CreateRibbonGroup();
+            this.separator1 = this.Factory.CreateRibbonSeparator();
             this.group3 = this.Factory.CreateRibbonGroup();
             this.btnTL = this.Factory.CreateRibbonToggleButton();
             this.btnML = this.Factory.CreateRibbonToggleButton();
@@ -51,11 +53,10 @@
             this.btnBR = this.Factory.CreateRibbonToggleButton();
             this.btnSwap = this.Factory.CreateRibbonButton();
             this.btnMatchSize = this.Factory.CreateRibbonButton();
+            this.btn_Expand = this.Factory.CreateRibbonButton();
             this.btnAdjoinHorizontal = this.Factory.CreateRibbonButton();
             this.btnAdjoinVertical = this.Factory.CreateRibbonButton();
             this.btnFontAntiAlias = this.Factory.CreateRibbonButton();
-            this.btn_Expand = this.Factory.CreateRibbonButton();
-            this.separator1 = this.Factory.CreateRibbonSeparator();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -115,6 +116,10 @@
             this.group4.Items.Add(this.btnAdjoinVertical);
             this.group4.Label = "Shape";
             this.group4.Name = "group4";
+            // 
+            // separator1
+            // 
+            this.separator1.Name = "separator1";
             // 
             // group3
             // 
@@ -189,7 +194,7 @@
             // btnSwap
             // 
             this.btnSwap.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnSwap.Image = global::m00npieces.Properties.Resources.swap__1_;
+            this.btnSwap.Image = global::m00npieces.Properties.Resources.swap;
             this.btnSwap.KeyTip = "C";
             this.btnSwap.Label = "교체";
             this.btnSwap.Name = "btnSwap";
@@ -200,17 +205,27 @@
             // btnMatchSize
             // 
             this.btnMatchSize.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnMatchSize.Image = global::m00npieces.Properties.Resources.matchsize;
+            this.btnMatchSize.Image = ((System.Drawing.Image)(resources.GetObject("btnMatchSize.Image")));
             this.btnMatchSize.KeyTip = "A";
             this.btnMatchSize.Label = "크기맞춤";
             this.btnMatchSize.Name = "btnMatchSize";
             this.btnMatchSize.ShowImage = true;
             this.btnMatchSize.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnMatchSize_Click);
             // 
+            // btn_Expand
+            // 
+            this.btn_Expand.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btn_Expand.Image = ((System.Drawing.Image)(resources.GetObject("btn_Expand.Image")));
+            this.btn_Expand.KeyTip = "E";
+            this.btn_Expand.Label = "늘이기";
+            this.btn_Expand.Name = "btn_Expand";
+            this.btn_Expand.ShowImage = true;
+            this.btn_Expand.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Btn_Expand_Click);
+            // 
             // btnAdjoinHorizontal
             // 
             this.btnAdjoinHorizontal.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnAdjoinHorizontal.Image = global::m00npieces.Properties.Resources.수정됨_그림1;
+            this.btnAdjoinHorizontal.Image = global::m00npieces.Properties.Resources.adjoinhorizontal;
             this.btnAdjoinHorizontal.KeyTip = "H";
             this.btnAdjoinHorizontal.Label = "가로로 붙이기";
             this.btnAdjoinHorizontal.Name = "btnAdjoinHorizontal";
@@ -220,7 +235,7 @@
             // btnAdjoinVertical
             // 
             this.btnAdjoinVertical.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnAdjoinVertical.Image = global::m00npieces.Properties.Resources.수정됨_그림2;
+            this.btnAdjoinVertical.Image = global::m00npieces.Properties.Resources.adjoinvertical;
             this.btnAdjoinVertical.KeyTip = "V";
             this.btnAdjoinVertical.Label = "세로로 붙이기";
             this.btnAdjoinVertical.Name = "btnAdjoinVertical";
@@ -235,19 +250,6 @@
             this.btnFontAntiAlias.Name = "btnFontAntiAlias";
             this.btnFontAntiAlias.ShowImage = true;
             this.btnFontAntiAlias.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnFontAntiAlias_Clicked);
-            // 
-            // btn_Expand
-            // 
-            this.btn_Expand.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btn_Expand.Label = "늘이기";
-            this.btn_Expand.Name = "btn_Expand";
-            this.btn_Expand.ShowImage = true;
-            this.btn_Expand.Visible = false;
-            this.btn_Expand.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Btn_Expand_Click);
-            // 
-            // separator1
-            // 
-            this.separator1.Name = "separator1";
             // 
             // Ribbon1
             // 
