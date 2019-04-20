@@ -352,7 +352,7 @@ namespace m00npieces
                 topsortedShape[i].Top = topsortedShape[i - 1].Top + topsortedShape[i - 1].Height;
             }
         }
-
+        #region 늘이기 작성중
         private void Btn_Expand_Click(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
@@ -402,6 +402,7 @@ namespace m00npieces
             //    default:
             //        break;
             //}
+            #endregion
         }
     }
 
