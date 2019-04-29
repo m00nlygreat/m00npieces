@@ -267,22 +267,20 @@ namespace m00npieces
         private void btnFontAntiAlias_Clicked(object sender, RibbonControlEventArgs e) // 글씨를 예쁘게
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
-            //if (sel.ShapeRange.HasTextFrame==MsoTriState.msoTrue)
-            //{
-            try
+            if (sel.ShapeRange.HasTextFrame == MsoTriState.msoTrue)
             {
-                sel.TextRange2.Font.Line.Visible = MsoTriState.msoTrue;
-                sel.TextRange2.Font.Line.Transparency = 1;
-                Globals.ThisAddIn.Application.StartNewUndoEntry();
+                try
+                {
+                    sel.TextRange2.Font.Line.Visible = MsoTriState.msoTrue;
+                    sel.TextRange2.Font.Line.Transparency = 1;
+                    Globals.ThisAddIn.Application.StartNewUndoEntry();
+                }
+
+                catch
+                {
+
+                }
             }
-
-            catch
-            {
-
-            }
-            //}
-
-
         }
 
         private void EdtGoToSlide_changed(object sender, RibbonControlEventArgs e) // 슬라이드 번호 입력시, 해당 슬라이드로 이동
@@ -405,7 +403,7 @@ namespace m00npieces
                 sel.ShapeRange[i].IncrementLeft(difLeft);
             }
         }
-        public void GatherGetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left)
+        public void GatherGetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) // 앵커를 기준으로 모아줘야할 나머지 도형의 위치값 증감분을 계산
         {
 
             switch (intAnchorPoint)
@@ -416,11 +414,39 @@ namespace m00npieces
                     break;
                 case 2:
                     top = first.Top - second.Top;
-                    left = first.Left - (second.Width - first.Width) / 2;
+                    left = first.Left - second.Left - (second.Width - first.Width) / 2;
+                    break;
+                case 3:
+                    top = first.Top - second.Top;
+                    left = first.Left - second.Left - (second.Width - first.Width);
+                    break;
+                case 4:
+                    top = first.Top - second.Top - (second.Height - first.Height) / 2;
+                    left = first.Left - second.Left;
+                    break;
+                case 5:
+                    top = first.Top - second.Top - (second.Height - first.Height) / 2;
+                    left = first.Left - second.Left - (second.Width - first.Width) / 2;
+                    break;
+                case 6:
+                    top = first.Top - second.Top - (second.Height - first.Height) / 2;
+                    left = first.Left - second.Left - (second.Width - first.Width);
+                    break;
+                case 7:
+                    top = first.Top - second.Top - (second.Height - first.Height);
+                    left = first.Left - second.Left;
+                    break;
+                case 8:
+                    top = first.Top - second.Top - (second.Height - first.Height);
+                    left = first.Left - second.Left - (second.Width - first.Width) / 2;
+                    break;
+                case 9:
+                    top = first.Top - second.Top - (second.Height - first.Height);
+                    left = first.Left - second.Left - (second.Width - first.Width);
                     break;
                 default:
-                    top = second.Top;
-                    left = second.Left;
+                    top = first.Top - second.Top;
+                    left = first.Left - second.Left;
                     break;
             }
         }
