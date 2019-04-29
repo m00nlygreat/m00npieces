@@ -1,12 +1,8 @@
-﻿using System;
+﻿using Microsoft.Office.Core;
+using Microsoft.Office.Tools.Ribbon;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Microsoft.Office.Tools;
-using Microsoft.Office.Core;
-using Microsoft.Office.Tools.Ribbon;
-using System.Diagnostics;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 
@@ -268,12 +264,7 @@ namespace m00npieces
         }
         #endregion
 
-        private void Button1_Click(object sender, RibbonControlEventArgs e)
-        {
-
-        }
-
-        private void btnFontAntiAlias_Clicked(object sender, RibbonControlEventArgs e)
+        private void btnFontAntiAlias_Clicked(object sender, RibbonControlEventArgs e) // 글씨를 예쁘게
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             //if (sel.ShapeRange.HasTextFrame==MsoTriState.msoTrue)
@@ -352,7 +343,7 @@ namespace m00npieces
                 topsortedShape[i].Top = topsortedShape[i - 1].Top + topsortedShape[i - 1].Height;
             }
         }
-        private void Btn_Expand_Click(object sender, RibbonControlEventArgs e) // 늘이기
+        private void Btn_Expand_Click(object sender, RibbonControlEventArgs e) // 늘이기 
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             List<PowerPoint.Shape> shapesInSlide = new List<PowerPoint.Shape>();
@@ -399,9 +390,40 @@ namespace m00npieces
                 default:
                     break;
             } // 앵커 위치에 따라 늘이는 방향 달라짐.
-        }
+        } 
         public float Right(PowerPoint.Shape o) { return o.Left + o.Width ; }
         public float Bottom(PowerPoint.Shape o) { return o.Top + o.Height; }
+        // 모으기 구현
+        private void BtnGather_Click(object sender, RibbonControlEventArgs e) // 모으기
+        {
+            var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+            for (int i = 2; i <= sel.ShapeRange.Count; i++)
+            {
+                float difTop, difLeft;
+                GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
+                sel.ShapeRange[i].IncrementTop(difTop);
+                sel.ShapeRange[i].IncrementLeft(difLeft);
+            }
+        }
+        public void GatherGetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left)
+        {
+
+            switch (intAnchorPoint)
+            {
+                case 1:
+                    top = first.Top - second.Top;
+                    left = first.Left - second.Left;
+                    break;
+                case 2:
+                    top = first.Top - second.Top;
+                    left = first.Left - (second.Width - first.Width) / 2;
+                    break;
+                default:
+                    top = second.Top;
+                    left = second.Left;
+                    break;
+            }
+        }
     }
 
 

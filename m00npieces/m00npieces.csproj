@@ -254,7 +254,7 @@
     <ManifestKeyFile>m00npieces_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>D33935FB6F29E4C5556B0E6074644A3D9742DB82</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>7C869B052AD8102C64F82D5395BC48B571BDEA0A</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

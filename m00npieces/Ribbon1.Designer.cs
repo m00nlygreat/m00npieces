@@ -39,9 +39,6 @@
             this.group1 = this.Factory.CreateRibbonGroup();
             this.edtGoToSlide = this.Factory.CreateRibbonEditBox();
             this.group2 = this.Factory.CreateRibbonGroup();
-            this.group4 = this.Factory.CreateRibbonGroup();
-            this.separator1 = this.Factory.CreateRibbonSeparator();
-            this.group3 = this.Factory.CreateRibbonGroup();
             this.btnTL = this.Factory.CreateRibbonToggleButton();
             this.btnML = this.Factory.CreateRibbonToggleButton();
             this.btnBL = this.Factory.CreateRibbonToggleButton();
@@ -51,12 +48,16 @@
             this.btnTR = this.Factory.CreateRibbonToggleButton();
             this.btnMR = this.Factory.CreateRibbonToggleButton();
             this.btnBR = this.Factory.CreateRibbonToggleButton();
+            this.group4 = this.Factory.CreateRibbonGroup();
             this.btnSwap = this.Factory.CreateRibbonButton();
             this.btnMatchSize = this.Factory.CreateRibbonButton();
             this.btn_Expand = this.Factory.CreateRibbonButton();
+            this.separator1 = this.Factory.CreateRibbonSeparator();
             this.btnAdjoinHorizontal = this.Factory.CreateRibbonButton();
             this.btnAdjoinVertical = this.Factory.CreateRibbonButton();
+            this.group3 = this.Factory.CreateRibbonGroup();
             this.btnFontAntiAlias = this.Factory.CreateRibbonButton();
+            this.btnGather = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -105,27 +106,6 @@
             this.group2.KeyTip = "S";
             this.group2.Label = "Anchor";
             this.group2.Name = "group2";
-            // 
-            // group4
-            // 
-            this.group4.Items.Add(this.btnSwap);
-            this.group4.Items.Add(this.btnMatchSize);
-            this.group4.Items.Add(this.btn_Expand);
-            this.group4.Items.Add(this.separator1);
-            this.group4.Items.Add(this.btnAdjoinHorizontal);
-            this.group4.Items.Add(this.btnAdjoinVertical);
-            this.group4.Label = "Shape";
-            this.group4.Name = "group4";
-            // 
-            // separator1
-            // 
-            this.separator1.Name = "separator1";
-            // 
-            // group3
-            // 
-            this.group3.Items.Add(this.btnFontAntiAlias);
-            this.group3.Label = "et cetra";
-            this.group3.Name = "group3";
             // 
             // btnTL
             // 
@@ -191,6 +171,18 @@
             this.btnBR.Name = "btnBR";
             this.btnBR.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnBR_Click);
             // 
+            // group4
+            // 
+            this.group4.Items.Add(this.btnSwap);
+            this.group4.Items.Add(this.btnMatchSize);
+            this.group4.Items.Add(this.btn_Expand);
+            this.group4.Items.Add(this.btnGather);
+            this.group4.Items.Add(this.separator1);
+            this.group4.Items.Add(this.btnAdjoinHorizontal);
+            this.group4.Items.Add(this.btnAdjoinVertical);
+            this.group4.Label = "Shape";
+            this.group4.Name = "group4";
+            // 
             // btnSwap
             // 
             this.btnSwap.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -222,6 +214,10 @@
             this.btn_Expand.ShowImage = true;
             this.btn_Expand.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Btn_Expand_Click);
             // 
+            // separator1
+            // 
+            this.separator1.Name = "separator1";
+            // 
             // btnAdjoinHorizontal
             // 
             this.btnAdjoinHorizontal.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -242,6 +238,12 @@
             this.btnAdjoinVertical.ShowImage = true;
             this.btnAdjoinVertical.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnAdjoinVertical_Click);
             // 
+            // group3
+            // 
+            this.group3.Items.Add(this.btnFontAntiAlias);
+            this.group3.Label = "et cetra";
+            this.group3.Name = "group3";
+            // 
             // btnFontAntiAlias
             // 
             this.btnFontAntiAlias.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -250,6 +252,14 @@
             this.btnFontAntiAlias.Name = "btnFontAntiAlias";
             this.btnFontAntiAlias.ShowImage = true;
             this.btnFontAntiAlias.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnFontAntiAlias_Clicked);
+            // 
+            // btnGather
+            // 
+            this.btnGather.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnGather.Label = "모으기";
+            this.btnGather.Name = "btnGather";
+            this.btnGather.ShowImage = true;
+            this.btnGather.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnGather_Click);
             // 
             // Ribbon1
             // 
@@ -295,6 +305,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnAdjoinVertical;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btn_Expand;
         internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnGather;
     }
 
     partial class ThisRibbonCollection
