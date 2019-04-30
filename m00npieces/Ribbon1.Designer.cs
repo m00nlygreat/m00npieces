@@ -52,12 +52,12 @@
             this.btnSwap = this.Factory.CreateRibbonButton();
             this.btnMatchSize = this.Factory.CreateRibbonButton();
             this.btn_Expand = this.Factory.CreateRibbonButton();
+            this.btnGather = this.Factory.CreateRibbonButton();
             this.separator1 = this.Factory.CreateRibbonSeparator();
             this.btnAdjoinHorizontal = this.Factory.CreateRibbonButton();
             this.btnAdjoinVertical = this.Factory.CreateRibbonButton();
             this.group3 = this.Factory.CreateRibbonGroup();
             this.btnFontAntiAlias = this.Factory.CreateRibbonButton();
-            this.btnGather = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -214,6 +214,15 @@
             this.btn_Expand.ShowImage = true;
             this.btn_Expand.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Btn_Expand_Click);
             // 
+            // btnGather
+            // 
+            this.btnGather.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnGather.Image = global::m00npieces.Properties.Resources.gather;
+            this.btnGather.Label = "모으기";
+            this.btnGather.Name = "btnGather";
+            this.btnGather.ShowImage = true;
+            this.btnGather.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnGather_Click);
+            // 
             // separator1
             // 
             this.separator1.Name = "separator1";
@@ -252,14 +261,6 @@
             this.btnFontAntiAlias.Name = "btnFontAntiAlias";
             this.btnFontAntiAlias.ShowImage = true;
             this.btnFontAntiAlias.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnFontAntiAlias_Clicked);
-            // 
-            // btnGather
-            // 
-            this.btnGather.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnGather.Label = "모으기";
-            this.btnGather.Name = "btnGather";
-            this.btnGather.ShowImage = true;
-            this.btnGather.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnGather_Click);
             // 
             // Ribbon1
             // 
