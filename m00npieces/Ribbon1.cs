@@ -3,6 +3,7 @@ using Microsoft.Office.Tools.Ribbon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 
@@ -17,7 +18,18 @@ namespace m00npieces
         {
             intAnchorPoint = btnAnchor_Clicked(0); // 초기 Anchor 설정
             Globals.ThisAddIn.Application.SlideSelectionChanged += SlideNoOnEdtbx; // 슬라이드 이동(포커스 이동)시 슬라이드 번호를 에디트 박스에 입력
+            Globals.ThisAddIn.Application.WindowSelectionChange += UpdateObjectName;
         }
+
+        private void UpdateObjectName(PowerPoint.Selection sel)
+        {
+            try { ebxName.Text = (sel.ShapeRange.Count == 1) ? sel.ShapeRange.Name : ""; }  catch { ebxName.Text = ""; } 
+        }
+        private void EbxName_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+            try { Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Name = ebxName.Text; } catch { }
+        }
+
         private void btnSwap_Clicked(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
@@ -449,6 +461,30 @@ namespace m00npieces
                     left = first.Left - second.Left;
                     break;
             }
+        }
+
+        private void BtnSync_Click(object sender, RibbonControlEventArgs e)
+        {
+
+            //try
+            //{
+            //    var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+            //    Show(sel.SlideRange.SlideIndex.ToString());
+            //    PowerPoint.Slide curSlide = Globals.ThisAddIn.Application.ActiveWindow.View.Slide;
+            //    //foreach (PowerPoint.Shape shp in curSlide.Shapes)
+            //    //{
+            //    //    if (sel.ShapeRange.Name == shp.Name)
+            //    //    {
+            //    //        sel.ShapeRange.Duplicate();
+            //    //    }
+            //    //}
+            //}
+            //catch { }
+            //태그 사용예제..ㅠㅠ
+            //var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+            //foreach (PowerPoint.Tags tag in sel.ShapeRange)
+            //{ tag.}
+            //MessageBox.Show();
         }
     }
 
