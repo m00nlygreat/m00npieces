@@ -14,6 +14,11 @@ namespace m00npieces
     public partial class Ribbon1
     {
         int intAnchorPoint;
+        
+        // 버튼의 누름 상태를 표시하는 열거형
+        enum Stage {None, Swapped=10, SizeMatched=20, WidthMatched, Aligned=30 }
+        Stage onStage = Stage.None;
+
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
             intAnchorPoint = btnAnchor_Clicked(0); // 초기 Anchor 설정
@@ -21,7 +26,7 @@ namespace m00npieces
             Globals.ThisAddIn.Application.WindowSelectionChange += UpdateObjectName;
         }
 
-        private void UpdateObjectName(PowerPoint.Selection sel)
+        private void UpdateObjectName(PowerPoint.Selection sel) // 이름을 표시한다.
         {
             try { ebxName.Text = (sel.ShapeRange.Count == 1) ? sel.ShapeRange.Name : ""; }  catch { ebxName.Text = ""; } 
         }
@@ -33,53 +38,64 @@ namespace m00npieces
         private void btnSwap_Clicked(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
-            try
+            if (sel.ShapeRange.Count == 2) // 2개를 선택했을때만 작동.
             {
-                if (sel.ShapeRange.Count == 2) // 2개를 선택했을때만 작동.
+                switch (onStage)
                 {
-                    float firstTop;
-                    float firstLeft;
-                    float secondTop;
-                    float secondLeft;
-                    GetAnchored(sel.ShapeRange[1], sel.ShapeRange[2], out firstTop, out firstLeft);
-                    GetAnchored(sel.ShapeRange[2], sel.ShapeRange[1], out secondTop, out secondLeft);
-                    sel.ShapeRange[1].Top = secondTop; // 서로의 위치를 바꾸는 부분
-                    sel.ShapeRange[1].Left = secondLeft;
-                    sel.ShapeRange[2].Top = firstTop;
-                    sel.ShapeRange[2].Left = firstLeft;
-
-                    int intFirstZorder = WhereInSlide(sel.ShapeRange[1]); // 선택한 두 도형의 최초 순서를 변수에 담는다. 이름은 ZOrder이나 ZOrderPosition 속성과는 관련없는 커스텀 구현된 위치임.
-                    int intSecondZorder = WhereInSlide(sel.ShapeRange[2]);
-                    if (intFirstZorder < intSecondZorder) // First냐, Second냐의 차이는 클릭 순서에 따라 달라진다. 암튼 뭐가 더 위에 있느냐에 따라, 앞으로 보내거나 뒤로 보내야 하는 방향이 달라짐.
-                    {
-                        for (int i = intFirstZorder; i < intSecondZorder; i++)
-                        {
-                            sel.ShapeRange[1].ZOrder(MsoZOrderCmd.msoBringForward);
-                        }
-                        for (int i = intSecondZorder - 1; i > intFirstZorder; i--) // 두번째 도형의 순서를 옮길 때는, 한 번 덜 가야 한다. 왜냐면 첫번째 도형이 이미 두 번째 도형의 위치까지 와 있어서 서로 순서가 교체되었으므로.
-                        {
-                            sel.ShapeRange[2].ZOrder(MsoZOrderCmd.msoSendBackward);
-                        }
-
-                    }
-                    else // 같은 내용을 방향 바꿔서 보냄.
-                    {
-                        for (int i = intFirstZorder; i > intSecondZorder; i--)
-                        {
-                            sel.ShapeRange[1].ZOrder(MsoZOrderCmd.msoSendBackward);
-                        }
-                        for (int i = intSecondZorder + 1; i < intFirstZorder; i++)
-                        {
-                            sel.ShapeRange[2].ZOrder(MsoZOrderCmd.msoBringForward);
-                        }
-                    }
+                    case Stage.None:
+                        ObjectSwap(sel.ShapeRange[1], sel.ShapeRange[2]);
+                        onStage = Stage.Swapped;
+                        break;
+                    case Stage.Swapped:
+                        sel.ShapeRange[1].Delete();
+                        onStage = Stage.None;
+                        break;
+                    default:
+                        break;
                 }
             }
-            catch
+        }
+
+        private void ObjectSwap(PowerPoint.Shape shape1, PowerPoint.Shape shape2)
+        {
+            float firstTop;
+            float firstLeft;
+            float secondTop;
+            float secondLeft;
+            GetAnchored(shape1, shape2, out firstTop, out firstLeft);
+            GetAnchored(shape2, shape1, out secondTop, out secondLeft);
+            shape1.Top = secondTop; // 서로의 위치를 바꾸는 부분
+            shape1.Left = secondLeft;
+            shape2.Top = firstTop;
+            shape2.Left = firstLeft;
+
+            int intFirstZorder = WhereInSlide(shape1); // 선택한 두 도형의 최초 순서를 변수에 담는다. 이름은 ZOrder이나 ZOrderPosition 속성과는 관련없는 커스텀 구현된 위치임.
+            int intSecondZorder = WhereInSlide(shape2);
+            if (intFirstZorder < intSecondZorder) // First냐, Second냐의 차이는 클릭 순서에 따라 달라진다. 암튼 뭐가 더 위에 있느냐에 따라, 앞으로 보내거나 뒤로 보내야 하는 방향이 달라짐.
             {
+                for (int i = intFirstZorder; i < intSecondZorder; i++)
+                {
+                    shape1.ZOrder(MsoZOrderCmd.msoBringForward);
+                }
+                for (int i = intSecondZorder - 1; i > intFirstZorder; i--) // 두번째 도형의 순서를 옮길 때는, 한 번 덜 가야 한다. 왜냐면 첫번째 도형이 이미 두 번째 도형의 위치까지 와 있어서 서로 순서가 교체되었으므로.
+                {
+                    shape2.ZOrder(MsoZOrderCmd.msoSendBackward);
+                }
 
             }
+            else // 같은 내용을 방향 바꿔서 보냄.
+            {
+                for (int i = intFirstZorder; i > intSecondZorder; i--)
+                {
+                    shape1.ZOrder(MsoZOrderCmd.msoSendBackward);
+                }
+                for (int i = intSecondZorder + 1; i < intFirstZorder; i++)
+                {
+                    shape2.ZOrder(MsoZOrderCmd.msoBringForward);
+                }
+            }
         }
+
         public int WhereInSlide(PowerPoint.Shape shape) //ZOrderPosition이 아닌, 실제 앞으로 보내기/뒤로 보내기 시 작동하는 선택 도형의 슬라이드 내 레이어 위치를 구한다.
         {
             int intOrderInSlide = 0;
