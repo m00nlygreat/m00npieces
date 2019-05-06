@@ -118,16 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnMatchSize.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EwAACxMBAJqcGAAAANBJREFUWEftkuEKwyAMhNf3f2jLuWak4aKJ4toffvCBbS8XGfts3kZpmIV1iC4s
-        DEdhXdAlFQ6S6mRhOArrgi4sLGZhHaKLDugB/T6CN6vPFPtRBrQ9ejP2uYstaxVksikixZHMFJHiSGaK
-        SPGy5ZsNePRPiGLRI5IZQhd7CyKZITLFmSzFDtgy+53Rm7HPN/SAnLVRvFl9pugBaxbWIVZKKcd1/MHC
-        cBTWBSvRC8xCO7H8sV9AlmcuALOwjmrrAkvRi/9+AbYcXp/XwhZ/LccJRpg68DPw/REAAAAASUVORK5C
-        YII=
-</value>
-  </data>
   <data name="btn_Expand.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAALtJREFUWEft

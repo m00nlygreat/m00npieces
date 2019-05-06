@@ -139,4 +139,13 @@
   <data name="gather" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gather.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fingersnap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fingersnap.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="expandhorizontal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\expandhorizontal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="expandvertical" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\expandvertical.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

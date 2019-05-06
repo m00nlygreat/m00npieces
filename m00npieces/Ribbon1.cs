@@ -24,13 +24,22 @@ namespace m00npieces
             intAnchorPoint = btnAnchor_Clicked(0); // 초기 Anchor 설정
             Globals.ThisAddIn.Application.SlideSelectionChanged += SlideNoOnEdtbx; // 슬라이드 이동(포커스 이동)시 슬라이드 번호를 에디트 박스에 입력
             Globals.ThisAddIn.Application.WindowSelectionChange += UpdateObjectName;
+            Globals.ThisAddIn.Application.WindowSelectionChange += offtheStageWhenYouSelectAnother;
+        }
+
+        private void offtheStageWhenYouSelectAnother(PowerPoint.Selection Sel) { GetOffTheStage(); }
+        private void GetOffTheStage() // Stage 상태를 해제한다.
+        {
+            onStage = Stage.None;
+            btnSwap.Image = btnSwap.Image = global::m00npieces.Properties.Resources.swap;
+            btnSwap.Label = "교체";
         }
 
         private void UpdateObjectName(PowerPoint.Selection sel) // 이름을 표시한다.
         {
             try { ebxName.Text = (sel.ShapeRange.Count == 1) ? sel.ShapeRange.Name : ""; }  catch { ebxName.Text = ""; } 
         }
-        private void EbxName_TextChanged(object sender, RibbonControlEventArgs e)
+        private void EbxName_TextChanged(object sender, RibbonControlEventArgs e) // 이름을 바꾸면, 개체의 이름도 바꿈.
         {
             try { Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Name = ebxName.Text; } catch { }
         }
@@ -42,15 +51,15 @@ namespace m00npieces
             {
                 switch (onStage)
                 {
-                    case Stage.None:
-                        ObjectSwap(sel.ShapeRange[1], sel.ShapeRange[2]);
-                        onStage = Stage.Swapped;
-                        break;
-                    case Stage.Swapped:
+                    case Stage.Swapped: // 직전에 스왑을 실행했다면, 원본 개체를 삭제한다.
                         sel.ShapeRange[1].Delete();
-                        onStage = Stage.None;
+                        GetOffTheStage();
                         break;
                     default:
+                        ObjectSwap(sel.ShapeRange[1], sel.ShapeRange[2]);
+                        onStage = Stage.Swapped;
+                        btnSwap.Label = "원본 삭제";
+                        btnSwap.Image = global::m00npieces.Properties.Resources.fingersnap;
                         break;
                 }
             }
@@ -132,117 +141,85 @@ namespace m00npieces
 
         private void BtnMatchSize_Click(object sender, RibbonControlEventArgs e) // 사이즈 매치
         {
+            if (onStage != Stage.None){ Globals.ThisAddIn.Application.CommandBars.ExecuteMso("Undo");}
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             try
             {
-                for (int i = 2; i <= sel.ShapeRange.Count; i++)
-                {
-                    float secondTop;
-                    float secondLeft;
-                    MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft); // 앵커를 기준으로, 변경된 크기일때 옮겨야 하는 Top/Left값 산출
-                    sel.ShapeRange[i].Top = secondTop; // 크기변경은 먼저 위치를 옮기고 해야된다.
-                    sel.ShapeRange[i].Left = secondLeft;
-                    sel.ShapeRange[i].Width = sel.ShapeRange[1].Width; // 이걸로 잘 될까 싶지만 놀랍도록 잘 된다.
-                    sel.ShapeRange[i].Height = sel.ShapeRange[1].Height;
+
+                    switch (onStage) // Stage에 따라, 크기맞춤, 가로/세로 맞춤을 토글하여 실행한다.
+                    {
+                        default:
+                            for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                            {
+                                float secondTop;
+                                float secondLeft;
+                                MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft);
+                                MessageBox.Show(secondLeft.ToString() + " " + secondTop.ToString() + " " + sel.ShapeRange[i].Left.ToString() + " " + sel.ShapeRange[i].Top.ToString());
+                                sel.ShapeRange[i].Top = secondTop; // 크기변경은 먼저 위치를 옮기고 해야된다.
+                                sel.ShapeRange[i].Left = secondLeft;
+                                sel.ShapeRange[i].Width = sel.ShapeRange[1].Width; // 이걸로 잘 될까 싶지만 놀랍도록 잘 된다.
+                                sel.ShapeRange[i].Height = sel.ShapeRange[1].Height;
+                                onStage = Stage.SizeMatched;
+                            }
+                            break;
+                        case Stage.SizeMatched:
+                            for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                            {
+                                float secondTop;
+                                float secondLeft;
+                                //Globals.ThisAddIn.Application.CommandBars.ExecuteMso("Undo");
+                                MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft);
+                                //MessageBox.Show(secondLeft.ToString() + " " + secondTop.ToString() + " " + sel.ShapeRange[i].Left.ToString() + " " + sel.ShapeRange[i].Top.ToString());
+                                sel.ShapeRange[i].Left = secondLeft;
+                                sel.ShapeRange[i].Width = sel.ShapeRange[1].Width;
+                                onStage = Stage.WidthMatched;
+                            }
+                            break;
+                        case Stage.WidthMatched:
+                            for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                            {
+                                float secondTop;
+                                float secondLeft;
+                                //Globals.ThisAddIn.Application.CommandBars.ExecuteMso("Undo");
+                                MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft);
+                                sel.ShapeRange[i].Top = secondTop;
+                                sel.ShapeRange[i].Height = sel.ShapeRange[1].Height;
+                                onStage = Stage.None;
+                            }
+                            break;
                 }
-            }
-            catch
-            {
-
-            }
-
+            } catch { }
         }
         public void GetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) // 도형 2개를 근거로, 위치 변경 후 2번째 도형의 바뀌어야 하는 Top, Left값 산출
         {
             switch (intAnchorPoint)
             {
-                case 1:
-                    top = first.Top;
-                    left = first.Left;
-                    break;
-                case 2:
-                    top = first.Top;
-                    left = first.Left + first.Width / 2 - second.Width / 2;
-                    break;
-                case 3:
-                    top = first.Top;
-                    left = first.Left + first.Width - second.Width;
-                    break;
-                case 4:
-                    top = first.Top + first.Height / 2 - second.Height / 2;
-                    left = first.Left;
-                    break;
-                case 5:
-                    top = first.Top + first.Height / 2 - second.Height / 2;
-                    left = first.Left + first.Width / 2 - second.Width / 2;
-                    break;
-                case 6:
-                    top = first.Top + first.Height / 2 - second.Height / 2;
-                    left = first.Left + first.Width - second.Width;
-                    break;
-                case 7:
-                    top = first.Top + first.Height - second.Height;
-                    left = first.Left;
-                    break;
-                case 8:
-                    top = first.Top + first.Height - second.Height;
-                    left = first.Left + first.Width / 2 - second.Width / 2;
-                    break;
-                case 9:
-                    top = first.Top + first.Height - second.Height;
-                    left = first.Left + first.Width - second.Width;
-                    break;
-                default:
-                    top = first.Top;
-                    left = first.Left;
-                    break;
+                case 1:top = first.Top;left = first.Left;break;
+                case 2:top = first.Top;left = first.Left + first.Width / 2 - second.Width / 2;break;
+                case 3:top = first.Top;left = first.Left + first.Width - second.Width;break;
+                case 4:top = first.Top + first.Height / 2 - second.Height / 2;left = first.Left;break;
+                case 5:top = first.Top + first.Height / 2 - second.Height / 2;left = first.Left + first.Width / 2 - second.Width / 2;break;
+                case 6:top = first.Top + first.Height / 2 - second.Height / 2;left = first.Left + first.Width - second.Width;break;
+                case 7:top = first.Top + first.Height - second.Height;left = first.Left;break;
+                case 8:top = first.Top + first.Height - second.Height;left = first.Left + first.Width / 2 - second.Width / 2;break;
+                case 9:top = first.Top + first.Height - second.Height;left = first.Left + first.Width - second.Width;break;
+                default:top = first.Top;left = first.Left;break;
             }
         }
         public void MatchSizeGetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) // 도형 2개를 근거로, 크기 변경 후 앵커 설정에 의해 바뀌어야 하는 2번째 도형의 위치값 산출
         {
             switch (intAnchorPoint)
             {
-                default:
-                    top = second.Top;
-                    left = second.Left;
-                    break;
-                case 1:
-                    top = second.Top;
-                    left = second.Left;
-                    break;
-                case 2:
-                    top = second.Top;
-                    left = second.Left - (first.Width - second.Width) / 2;
-                    break;
-                case 3:
-                    top = second.Top;
-                    left = second.Left - (first.Width - second.Width);
-                    break;
-                case 4:
-                    top = second.Top - (first.Height - second.Height) / 2;
-                    left = second.Left;
-                    break;
-                case 5:
-                    top = second.Top - (first.Height - second.Height) / 2;
-                    left = second.Left - (first.Width - second.Width) / 2;
-
-                    break;
-                case 6:
-                    top = second.Top - (first.Height - second.Height) / 2;
-                    left = second.Left - (first.Width - second.Width);
-                    break;
-                case 7:
-                    top = second.Top - (first.Height - second.Height);
-                    left = second.Left;
-                    break;
-                case 8:
-                    top = second.Top - (first.Height - second.Height);
-                    left = second.Left - (first.Width - second.Width) / 2;
-                    break;
-                case 9:
-                    top = second.Top - (first.Height - second.Height);
-                    left = second.Left - (first.Width - second.Width);
-                    break;
+                default:top = second.Top;left = second.Left;break;
+                case 1:top = second.Top;left = second.Left;break;
+                case 2:top = second.Top;left = second.Left - (first.Width - second.Width) / 2;break;
+                case 3:top = second.Top;left = second.Left - (first.Width - second.Width);break;
+                case 4:top = second.Top - (first.Height - second.Height) / 2;left = second.Left;break;
+                case 5:top = second.Top - (first.Height - second.Height) / 2;left = second.Left - (first.Width - second.Width) / 2;break;
+                case 6:top = second.Top - (first.Height - second.Height) / 2;left = second.Left - (first.Width - second.Width);break;
+                case 7:top = second.Top - (first.Height - second.Height);left = second.Left;break;
+                case 8:top = second.Top - (first.Height - second.Height);left = second.Left - (first.Width - second.Width) / 2;break;
+                case 9:top = second.Top - (first.Height - second.Height);left = second.Left - (first.Width - second.Width);break;
             }
         }
         #region
@@ -436,46 +413,16 @@ namespace m00npieces
 
             switch (intAnchorPoint)
             {
-                case 1:
-                    top = first.Top - second.Top;
-                    left = first.Left - second.Left;
-                    break;
-                case 2:
-                    top = first.Top - second.Top;
-                    left = first.Left - second.Left - (second.Width - first.Width) / 2;
-                    break;
-                case 3:
-                    top = first.Top - second.Top;
-                    left = first.Left - second.Left - (second.Width - first.Width);
-                    break;
-                case 4:
-                    top = first.Top - second.Top - (second.Height - first.Height) / 2;
-                    left = first.Left - second.Left;
-                    break;
-                case 5:
-                    top = first.Top - second.Top - (second.Height - first.Height) / 2;
-                    left = first.Left - second.Left - (second.Width - first.Width) / 2;
-                    break;
-                case 6:
-                    top = first.Top - second.Top - (second.Height - first.Height) / 2;
-                    left = first.Left - second.Left - (second.Width - first.Width);
-                    break;
-                case 7:
-                    top = first.Top - second.Top - (second.Height - first.Height);
-                    left = first.Left - second.Left;
-                    break;
-                case 8:
-                    top = first.Top - second.Top - (second.Height - first.Height);
-                    left = first.Left - second.Left - (second.Width - first.Width) / 2;
-                    break;
-                case 9:
-                    top = first.Top - second.Top - (second.Height - first.Height);
-                    left = first.Left - second.Left - (second.Width - first.Width);
-                    break;
-                default:
-                    top = first.Top - second.Top;
-                    left = first.Left - second.Left;
-                    break;
+                case 1:top = first.Top - second.Top;left = first.Left - second.Left;break;
+                case 2:top = first.Top - second.Top;left = first.Left - second.Left - (second.Width - first.Width) / 2;break;
+                case 3:top = first.Top - second.Top;left = first.Left - second.Left - (second.Width - first.Width);break;
+                case 4:top = first.Top - second.Top - (second.Height - first.Height) / 2;left = first.Left - second.Left;break;
+                case 5:top = first.Top - second.Top - (second.Height - first.Height) / 2;left = first.Left - second.Left - (second.Width - first.Width) / 2;break;
+                case 6:top = first.Top - second.Top - (second.Height - first.Height) / 2;left = first.Left - second.Left - (second.Width - first.Width);break;
+                case 7:top = first.Top - second.Top - (second.Height - first.Height);left = first.Left - second.Left;break;
+                case 8:top = first.Top - second.Top - (second.Height - first.Height);left = first.Left - second.Left - (second.Width - first.Width) / 2;break;
+                case 9:top = first.Top - second.Top - (second.Height - first.Height);left = first.Left - second.Left - (second.Width - first.Width);break;
+                default:top = first.Top - second.Top;left = first.Left - second.Left;break;
             }
         }
 
