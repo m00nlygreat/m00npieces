@@ -14,10 +14,20 @@ namespace m00npieces
     public partial class Ribbon1
     {
         int intAnchorPoint;
-        
+        List<SizeAndLocation> origShapes = new List<SizeAndLocation>();
+
         // 버튼의 누름 상태를 표시하는 열거형
         enum Stage {None, Swapped=10, SizeMatched=20, WidthMatched, Aligned=30 }
         Stage onStage = Stage.None;
+        
+
+        public class SizeAndLocation
+        {
+            float Left;
+            float Top;
+            float Width;
+            float Height;
+        }
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
@@ -64,7 +74,6 @@ namespace m00npieces
                 }
             }
         }
-
         private void ObjectSwap(PowerPoint.Shape shape1, PowerPoint.Shape shape2)
         {
             float firstTop;
@@ -104,7 +113,6 @@ namespace m00npieces
                 }
             }
         }
-
         public int WhereInSlide(PowerPoint.Shape shape) //ZOrderPosition이 아닌, 실제 앞으로 보내기/뒤로 보내기 시 작동하는 선택 도형의 슬라이드 내 레이어 위치를 구한다.
         {
             int intOrderInSlide = 0;
@@ -151,6 +159,7 @@ namespace m00npieces
                         default:
                             for (int i = 2; i <= sel.ShapeRange.Count; i++)
                             {
+                            
                                 float secondTop;
                                 float secondLeft;
                                 MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft);
