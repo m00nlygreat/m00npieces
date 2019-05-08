@@ -50,15 +50,15 @@
             this.btnMR = this.Factory.CreateRibbonToggleButton();
             this.btnBR = this.Factory.CreateRibbonToggleButton();
             this.group4 = this.Factory.CreateRibbonGroup();
-            this.btnSync = this.Factory.CreateRibbonButton();
-            this.separator1 = this.Factory.CreateRibbonSeparator();
-            this.group3 = this.Factory.CreateRibbonGroup();
             this.btnSwap = this.Factory.CreateRibbonButton();
             this.btnMatchSize = this.Factory.CreateRibbonButton();
             this.btn_Expand = this.Factory.CreateRibbonButton();
             this.btnGather = this.Factory.CreateRibbonButton();
+            this.btnSync = this.Factory.CreateRibbonButton();
+            this.separator1 = this.Factory.CreateRibbonSeparator();
             this.btnAdjoinHorizontal = this.Factory.CreateRibbonButton();
             this.btnAdjoinVertical = this.Factory.CreateRibbonButton();
+            this.group3 = this.Factory.CreateRibbonGroup();
             this.btnFontAntiAlias = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
@@ -195,25 +195,6 @@
             this.group4.Label = "Shape";
             this.group4.Name = "group4";
             // 
-            // btnSync
-            // 
-            this.btnSync.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnSync.Label = "동기화";
-            this.btnSync.Name = "btnSync";
-            this.btnSync.ShowImage = true;
-            this.btnSync.Visible = false;
-            this.btnSync.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnSync_Click);
-            // 
-            // separator1
-            // 
-            this.separator1.Name = "separator1";
-            // 
-            // group3
-            // 
-            this.group3.Items.Add(this.btnFontAntiAlias);
-            this.group3.Label = "et cetra";
-            this.group3.Name = "group3";
-            // 
             // btnSwap
             // 
             this.btnSwap.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -254,6 +235,18 @@
             this.btnGather.ShowImage = true;
             this.btnGather.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnGather_Click);
             // 
+            // btnSync
+            // 
+            this.btnSync.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnSync.Label = "동기화";
+            this.btnSync.Name = "btnSync";
+            this.btnSync.ShowImage = true;
+            this.btnSync.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnSync_Click);
+            // 
+            // separator1
+            // 
+            this.separator1.Name = "separator1";
+            // 
             // btnAdjoinHorizontal
             // 
             this.btnAdjoinHorizontal.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -273,6 +266,12 @@
             this.btnAdjoinVertical.Name = "btnAdjoinVertical";
             this.btnAdjoinVertical.ShowImage = true;
             this.btnAdjoinVertical.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnAdjoinVertical_Click);
+            // 
+            // group3
+            // 
+            this.group3.Items.Add(this.btnFontAntiAlias);
+            this.group3.Label = "et cetra";
+            this.group3.Name = "group3";
             // 
             // btnFontAntiAlias
             // 
@@ -307,7 +306,6 @@
 
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnSwap;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnMatchSize;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnML;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group2;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton btnTL;
@@ -330,6 +328,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnGather;
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox ebxName;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnSync;
+        public Microsoft.Office.Tools.Ribbon.RibbonButton btnMatchSize;
     }
 
     partial class ThisRibbonCollection

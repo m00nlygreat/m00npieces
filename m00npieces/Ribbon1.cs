@@ -11,13 +11,22 @@ using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 namespace m00npieces
 {
+
     public partial class Ribbon1
     {
         int intAnchorPoint;
-        
-        // 버튼의 누름 상태를 표시하는 열거형
-        enum Stage {None, Swapped=10, SizeMatched=20, WidthMatched, Aligned=30 }
+        List<SizeAndLocation> origShapes = new List<SizeAndLocation>();
+        enum Stage { None, Swapped = 10, SizeMatched = 20, WidthMatched, Aligned = 30 }
         Stage onStage = Stage.None;
+        // 버튼의 누름 상태를 표시하는 열거형
+
+        private class SizeAndLocation
+        {
+            public float Top;
+            public float Left;
+            public float Width;
+            public float Height;
+        }
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
@@ -27,12 +36,15 @@ namespace m00npieces
             Globals.ThisAddIn.Application.WindowSelectionChange += offtheStageWhenYouSelectAnother;
         }
 
-        private void offtheStageWhenYouSelectAnother(PowerPoint.Selection Sel) { GetOffTheStage(); }
+        private void offtheStageWhenYouSelectAnother(PowerPoint.Selection Sel) { GetOffTheStage();}
         private void GetOffTheStage() // Stage 상태를 해제한다.
         {
             onStage = Stage.None;
             btnSwap.Image = btnSwap.Image = global::m00npieces.Properties.Resources.swap;
             btnSwap.Label = "교체";
+            btnMatchSize.Label = "크기맞춤";
+            btnMatchSize.Image = global::m00npieces.Properties.Resources.expand;
+            origShapes.Clear();
         }
 
         private void UpdateObjectName(PowerPoint.Selection sel) // 이름을 표시한다.
@@ -141,55 +153,73 @@ namespace m00npieces
 
         private void BtnMatchSize_Click(object sender, RibbonControlEventArgs e) // 사이즈 매치
         {
-            if (onStage != Stage.None){ Globals.ThisAddIn.Application.CommandBars.ExecuteMso("Undo");}
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             try
             {
 
-                    switch (onStage) // Stage에 따라, 크기맞춤, 가로/세로 맞춤을 토글하여 실행한다.
-                    {
-                        default:
-                            for (int i = 2; i <= sel.ShapeRange.Count; i++)
-                            {
-                                float secondTop;
-                                float secondLeft;
-                                MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft);
-                                MessageBox.Show(secondLeft.ToString() + " " + secondTop.ToString() + " " + sel.ShapeRange[i].Left.ToString() + " " + sel.ShapeRange[i].Top.ToString());
-                                sel.ShapeRange[i].Top = secondTop; // 크기변경은 먼저 위치를 옮기고 해야된다.
-                                sel.ShapeRange[i].Left = secondLeft;
-                                sel.ShapeRange[i].Width = sel.ShapeRange[1].Width; // 이걸로 잘 될까 싶지만 놀랍도록 잘 된다.
-                                sel.ShapeRange[i].Height = sel.ShapeRange[1].Height;
-                                onStage = Stage.SizeMatched;
-                            }
-                            break;
-                        case Stage.SizeMatched:
-                            for (int i = 2; i <= sel.ShapeRange.Count; i++)
-                            {
-                                float secondTop;
-                                float secondLeft;
-                                //Globals.ThisAddIn.Application.CommandBars.ExecuteMso("Undo");
-                                MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft);
-                                //MessageBox.Show(secondLeft.ToString() + " " + secondTop.ToString() + " " + sel.ShapeRange[i].Left.ToString() + " " + sel.ShapeRange[i].Top.ToString());
-                                sel.ShapeRange[i].Left = secondLeft;
-                                sel.ShapeRange[i].Width = sel.ShapeRange[1].Width;
-                                onStage = Stage.WidthMatched;
-                            }
-                            break;
-                        case Stage.WidthMatched:
-                            for (int i = 2; i <= sel.ShapeRange.Count; i++)
-                            {
-                                float secondTop;
-                                float secondLeft;
-                                //Globals.ThisAddIn.Application.CommandBars.ExecuteMso("Undo");
-                                MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft);
-                                sel.ShapeRange[i].Top = secondTop;
-                                sel.ShapeRange[i].Height = sel.ShapeRange[1].Height;
-                                onStage = Stage.None;
-                            }
-                            break;
+                switch (onStage) // Stage에 따라, 크기맞춤, 가로/세로 맞춤을 토글하여 실행한다.
+                {
+                    default:
+                        for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                        {
+                            float secondTop;
+                            float secondLeft;
+                            origShapes.Add(new SizeAndLocation() { Top = sel.ShapeRange[i].Top, Left = sel.ShapeRange[i].Left, Width = sel.ShapeRange[i].Width, Height = sel.ShapeRange[i].Height });
+                            MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft);
+                            sel.ShapeRange[i].Top = secondTop; // 크기변경은 먼저 위치를 옮기고 해야된다.
+                            sel.ShapeRange[i].Left = secondLeft;
+                            sel.ShapeRange[i].Width = sel.ShapeRange[1].Width; // 이걸로 잘 될까 싶지만 놀랍도록 잘 된다.
+                            sel.ShapeRange[i].Height = sel.ShapeRange[1].Height;
+                            onStage = Stage.SizeMatched;
+                            btnMatchSize.Label = "가로로 맞추기";
+                            btnMatchSize.Image = global::m00npieces.Properties.Resources.expandhorizontal;
+                        }
+                        break;
+                    case Stage.SizeMatched:
+                        for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                        {
+                            UndoLikeSomething(sel.ShapeRange[i], i);
+                            float secondTop;
+                            float secondLeft; 
+                            MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft);
+                            sel.ShapeRange[i].Left = secondLeft;
+                            sel.ShapeRange[i].Width = sel.ShapeRange[1].Width;
+
+                            btnMatchSize.Label = "세로로 맞추기";
+                            btnMatchSize.Image = global::m00npieces.Properties.Resources.expandvertical;
+                            onStage = Stage.WidthMatched;
+
+                        }
+                        break;
+                    case Stage.WidthMatched:
+                        for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                        {
+                            UndoLikeSomething(sel.ShapeRange[i], i);
+                            float secondTop;
+                            float secondLeft;
+                            MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft);
+                            sel.ShapeRange[i].Top = secondTop;
+                            sel.ShapeRange[i].Height = sel.ShapeRange[1].Height;
+
+                            onStage = Stage.None;
+                            btnMatchSize.Label = "크기맞춤";
+                            btnMatchSize.Image = global::m00npieces.Properties.Resources.expand;
+                        }
+                        break;
                 }
-            } catch { }
+
+            }
+            catch { }
+        
         }
+        public void UndoLikeSomething(PowerPoint.Shape shape, int i)
+        {
+            shape.Top = origShapes[i - 2].Top;
+            shape.Left = origShapes[i - 2].Left;
+            shape.Width = origShapes[i - 2].Width;
+            shape.Height = origShapes[i - 2].Height;
+        }
+
         public void GetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) // 도형 2개를 근거로, 위치 변경 후 2번째 도형의 바뀌어야 하는 Top, Left값 산출
         {
             switch (intAnchorPoint)
@@ -428,7 +458,17 @@ namespace m00npieces
 
         private void BtnSync_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.Application.CommandBars.ExecuteMso("Undo");
+            var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+            for (int i = 2; i <= sel.ShapeRange.Count; i++)
+            {
+                float secondTop;
+                float secondLeft;
+                MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft);
+                sel.ShapeRange[i].Left = secondLeft;
+                sel.ShapeRange[i].Width = sel.ShapeRange[1].Width;
+                onStage = Stage.WidthMatched;
+            }
             //try
             //{
             //    var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
