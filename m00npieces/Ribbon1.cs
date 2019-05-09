@@ -379,46 +379,25 @@ namespace m00npieces
         private void Btn_Expand_Click(object sender, RibbonControlEventArgs e) // 늘이기 
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
-            List<PowerPoint.Shape> shapesInSlide = new List<PowerPoint.Shape>();
-            for (int i = 1; i <= sel.ShapeRange.Count; i++)
-            {
-                shapesInSlide.Add(sel.ShapeRange[i]);
-            }
             switch (intAnchorPoint)
             {
                 case 2:
-                    List<PowerPoint.Shape> topsortedShape = shapesInSlide.OrderBy(o => o.Top).ToList();
-                    for (int i = 1; i <= topsortedShape.Count - 1; i++)
+                    for (int i = 2; i <= sel.ShapeRange.Count; i++)
                     {
-                        float dif = topsortedShape[0].Top - topsortedShape[i].Top;
-                        topsortedShape[i].IncrementTop(dif);
-                        topsortedShape[i].Height = topsortedShape[i].Height - dif;
+                        float dif = sel.ShapeRange[1].Top - sel.ShapeRange[i].Top;
+                        sel.ShapeRange[i].Top = sel.ShapeRange[1].Top;
+                        sel.ShapeRange[i].Height += - dif;
+
                     }
-                    break;
+                        break;
                 case 4:
-                    List<PowerPoint.Shape> leftsortedShape = shapesInSlide.OrderBy(o => o.Left).ToList();
-                    for (int i = 1; i <= leftsortedShape.Count - 1; i++)
-                    {
-                        float dif = leftsortedShape[0].Left - leftsortedShape[i].Left;
-                        leftsortedShape[i].IncrementLeft(dif);
-                        leftsortedShape[i].Width = leftsortedShape[i].Width - dif;
-                    }
+                    // 여기부터 작업시작 2019-05-09
                     break;
                 case 6:
-                    List<PowerPoint.Shape> rightsortedShape = shapesInSlide.OrderByDescending(o => Right(o)).ToList();
-                    for (int i = 1; i <= rightsortedShape.Count - 1; i++)
-                    {
-                        float dif = Right(rightsortedShape[0]) - Right(rightsortedShape[i]);
-                        rightsortedShape[i].Width = rightsortedShape[i].Width + dif;
-                    }
+                 
                     break;
                 case 8:
-                    List<PowerPoint.Shape> bottomsortedShape = shapesInSlide.OrderByDescending(o => Bottom(o)).ToList();
-                    for (int i = 1; i <= bottomsortedShape.Count - 1; i++)
-                    {
-                        float dif = Bottom(bottomsortedShape[0]) - Bottom(bottomsortedShape[i]);
-                        bottomsortedShape[i].Height = bottomsortedShape[i].Height + dif;
-                    }
+                    
                     break;
                 default:
                     break;
@@ -516,3 +495,54 @@ namespace m00npieces
 //  {
 
 //  }
+
+//private void Btn_Expand_Click(object sender, RibbonControlEventArgs e) // 늘이기 
+//{
+//    var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+//    List<PowerPoint.Shape> shapesInSlide = new List<PowerPoint.Shape>();
+//    for (int i = 1; i <= sel.ShapeRange.Count; i++)
+//    {
+//        shapesInSlide.Add(sel.ShapeRange[i]);
+//    }
+//    switch (intAnchorPoint)
+//    {
+//        case 2:
+//            List<PowerPoint.Shape> topsortedShape = shapesInSlide.OrderBy(o => o.Top).ToList();
+//            for (int i = 1; i <= topsortedShape.Count - 1; i++)
+//            {
+//                float dif = topsortedShape[0].Top - topsortedShape[i].Top;
+//                topsortedShape[i].IncrementTop(dif);
+//                topsortedShape[i].Height = topsortedShape[i].Height - dif;
+//            }
+//            break;
+//        case 4:
+//            List<PowerPoint.Shape> leftsortedShape = shapesInSlide.OrderBy(o => o.Left).ToList();
+//            for (int i = 1; i <= leftsortedShape.Count - 1; i++)
+//            {
+//                float dif = leftsortedShape[0].Left - leftsortedShape[i].Left;
+//                leftsortedShape[i].IncrementLeft(dif);
+//                leftsortedShape[i].Width = leftsortedShape[i].Width - dif;
+//            }
+//            break;
+//        case 6:
+//            List<PowerPoint.Shape> rightsortedShape = shapesInSlide.OrderByDescending(o => Right(o)).ToList();
+//            for (int i = 1; i <= rightsortedShape.Count - 1; i++)
+//            {
+//                float dif = Right(rightsortedShape[0]) - Right(rightsortedShape[i]);
+//                rightsortedShape[i].Width = rightsortedShape[i].Width + dif;
+//            }
+//            break;
+//        case 8:
+//            List<PowerPoint.Shape> bottomsortedShape = shapesInSlide.OrderByDescending(o => Bottom(o)).ToList();
+//            for (int i = 1; i <= bottomsortedShape.Count - 1; i++)
+//            {
+//                float dif = Bottom(bottomsortedShape[0]) - Bottom(bottomsortedShape[i]);
+//                bottomsortedShape[i].Height = bottomsortedShape[i].Height + dif;
+//            }
+//            break;
+//        default:
+//            break;
+//    } // 앵커 위치에 따라 늘이는 방향 달라짐.
+//}
+//public float Right(PowerPoint.Shape o) { return o.Left + o.Width; }
+//public float Bottom(PowerPoint.Shape o) { return o.Top + o.Height; }
