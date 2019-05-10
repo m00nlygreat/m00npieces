@@ -302,20 +302,18 @@ namespace m00npieces
         private void btnFontAntiAlias_Clicked(object sender, RibbonControlEventArgs e) // 글씨를 예쁘게
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
-            if (sel.ShapeRange.HasTextFrame == MsoTriState.msoTrue)
+            for (int i = 2; i <= sel.ShapeRange.Count; i++)
             {
-                try
+                if (sel.ShapeRange[i].HasTextFrame == MsoTriState.msoTrue)
                 {
-                    sel.TextRange2.Font.Line.Visible = MsoTriState.msoTrue;
-                    sel.TextRange2.Font.Line.Transparency = 1;
-                    Globals.ThisAddIn.Application.StartNewUndoEntry();
-                }
-
-                catch
-                {
-
+                    try{
+                        sel.ShapeRange[i].TextFrame2.TextRange.Font.Line.Visible = MsoTriState.msoTrue;
+                        sel.ShapeRange[i].TextFrame2.TextRange.Font.Line.Transparency = 1;
+                    }
+                    catch{}
                 }
             }
+            Globals.ThisAddIn.Application.StartNewUndoEntry();
         }
 
         private void EdtGoToSlide_changed(object sender, RibbonControlEventArgs e) // 슬라이드 번호 입력시, 해당 슬라이드로 이동
@@ -384,20 +382,68 @@ namespace m00npieces
                 case 2:
                     for (int i = 2; i <= sel.ShapeRange.Count; i++)
                     {
-                        float dif = sel.ShapeRange[1].Top - sel.ShapeRange[i].Top;
-                        sel.ShapeRange[i].Top = sel.ShapeRange[1].Top;
-                        sel.ShapeRange[i].Height += - dif;
+                        if ((sel.ShapeRange[i].Top + sel.ShapeRange[i].Height) > sel.ShapeRange[1].Top)
+                        {
+                            float dif = sel.ShapeRange[1].Top - sel.ShapeRange[i].Top;
+                            sel.ShapeRange[i].Top = sel.ShapeRange[1].Top;
+                            sel.ShapeRange[i].Height += -dif;
+                        }
+                        else
+                        {
+                            float dif = sel.ShapeRange[1].Top - (sel.ShapeRange[i].Top + sel.ShapeRange[i].Height);
+                            sel.ShapeRange[i].Height += dif;
+                        }
 
                     }
                         break;
                 case 4:
-                    // 여기부터 작업시작 2019-05-09
+                    
+                        for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                        if ((sel.ShapeRange[i].Left + sel.ShapeRange[i].Width) > sel.ShapeRange[1].Left)
+                        {
+                            float dif = sel.ShapeRange[1].Left - sel.ShapeRange[i].Left;
+                            sel.ShapeRange[i].Left = sel.ShapeRange[1].Left;
+                            sel.ShapeRange[i].Width += -dif;
+                        }
+                        else
+                        {
+                            float dif = sel.ShapeRange[1].Left - (sel.ShapeRange[i].Left + sel.ShapeRange[i].Width);
+                            sel.ShapeRange[i].Width += dif;
+                        }
+                        
                     break;
                 case 6:
-                 
+                    for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                    {
+                        if (Right(sel.ShapeRange[1]) < sel.ShapeRange[i].Left)
+                        {
+                            float dif = sel.ShapeRange[i].Left - Right(sel.ShapeRange[1]);
+                            sel.ShapeRange[i].Left += -dif;
+                            sel.ShapeRange[i].Width += dif;
+                        }
+                        else
+                        {
+                            float dif = Right(sel.ShapeRange[1]) - Right(sel.ShapeRange[i]);
+                            sel.ShapeRange[i].Width += dif;
+                        }
+                    }
                     break;
                 case 8:
-                    
+                    for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                    {
+                        if (Bottom(sel.ShapeRange[1]) < sel.ShapeRange[i].Top)
+                        {
+                            float dif = sel.ShapeRange[i].Top - Bottom(sel.ShapeRange[1]);
+                            sel.ShapeRange[i].Top += -dif;
+                            sel.ShapeRange[i].Height += dif;
+                        }
+                        else
+                        {
+                            float dif = Bottom(sel.ShapeRange[1]) - Bottom(sel.ShapeRange[i]);
+                            sel.ShapeRange[i].Height += dif;
+                        }
+
+                    }
                     break;
                 default:
                     break;
