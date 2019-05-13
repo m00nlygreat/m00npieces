@@ -20,7 +20,7 @@ namespace m00npieces
         Stage onStage = Stage.None;
         // 버튼의 누름 상태를 표시하는 열거형
 
-        private class SizeAndLocation
+        private class SizeAndLocation 
         {
             public float Top;
             public float Left;
@@ -30,31 +30,34 @@ namespace m00npieces
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
-            intAnchorPoint = btnAnchor_Clicked(0); // 초기 Anchor 설정
+            intAnchorPoint = btnAnchor_Clicked(1); // 초기 Anchor 설정
             Globals.ThisAddIn.Application.SlideSelectionChanged += SlideNoOnEdtbx; // 슬라이드 이동(포커스 이동)시 슬라이드 번호를 에디트 박스에 입력
             Globals.ThisAddIn.Application.WindowSelectionChange += UpdateObjectName;
             Globals.ThisAddIn.Application.WindowSelectionChange += offtheStageWhenYouSelectAnother;
         }
 
         private void offtheStageWhenYouSelectAnother(PowerPoint.Selection Sel) { GetOffTheStage();}
-        private void GetOffTheStage() // Stage 상태를 해제한다.
+        private void GetOffTheStage() 
         {
             onStage = Stage.None;
+
             btnSwap.Image = btnSwap.Image = global::m00npieces.Properties.Resources.swap;
             btnSwap.Label = "교체";
-            btnMatchSize.Label = "크기맞춤";
+
             btnMatchSize.Image = global::m00npieces.Properties.Resources.expand;
-            origShapes.Clear();
+            btnMatchSize.Label = "크기맞춤";
+
+            origShapes.Clear(); // Stage 상태를 해제한다.
         }
 
-        private void UpdateObjectName(PowerPoint.Selection sel) // 이름을 표시한다.
+        private void UpdateObjectName(PowerPoint.Selection sel) 
         {
-            try { ebxName.Text = (sel.ShapeRange.Count == 1) ? sel.ShapeRange.Name : ""; }  catch { ebxName.Text = ""; } 
-        }
-        private void EbxName_TextChanged(object sender, RibbonControlEventArgs e) // 이름을 바꾸면, 개체의 이름도 바꿈.
+            try { ebxName.Text = (sel.ShapeRange.Count == 1) ? sel.ShapeRange.Name : ""; }  catch { ebxName.Text = ""; }
+        } // 이름을 표시한다.
+        private void EbxName_TextChanged(object sender, RibbonControlEventArgs e) 
         {
             try { Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Name = ebxName.Text; } catch { }
-        }
+        } // 이름을 바꾸면, 개체의 이름도 바꿈.
 
         private void btnSwap_Clicked(object sender, RibbonControlEventArgs e)
         {
@@ -117,7 +120,7 @@ namespace m00npieces
             }
         }
 
-        public int WhereInSlide(PowerPoint.Shape shape) //ZOrderPosition이 아닌, 실제 앞으로 보내기/뒤로 보내기 시 작동하는 선택 도형의 슬라이드 내 레이어 위치를 구한다.
+        public int WhereInSlide(PowerPoint.Shape shape) 
         {
             int intOrderInSlide = 0;
             var curSlide = Globals.ThisAddIn.Application.ActiveWindow.View.Slide;
@@ -132,26 +135,71 @@ namespace m00npieces
                 }
             }
             return intOrderInSlide;
-        }
-        public int btnAnchor_Clicked(int whichclicked) // 앵커 버튼을 클릭했을 때, 버튼의 보이는 상태를 바꿈.
+        } //ZOrderPosition이 아닌, 실제 앞으로 보내기/뒤로 보내기 시 작동하는 선택 도형의 슬라이드 내 레이어 위치를 구한다.
+        public int btnAnchor_Clicked(int whichclicked) 
         {
             RibbonToggleButton[] btnsAnchor = new RibbonToggleButton[9] { btnTL, btnTC, btnTR, btnML, btnMC, btnMR, btnBL, btnBC, btnBR }; // 앵커를 설정하는 9개 버튼을 일단 배열에 담아봄.
-            for (int i = 0; i <= btnsAnchor.Length - 1; i++) 
+            for (int i = 1; i <= btnsAnchor.Length; i++) 
             {
                 if (i == whichclicked)
                 {
-                    btnsAnchor[i].Label = "◆";
+                    btnsAnchor[i-1].Label = "◆";
                 }
                 else
                 {
-                    btnsAnchor[i].Label = "◇";
-                    btnsAnchor[i].Checked = false;
+                    btnsAnchor[i-1].Label = "◇";
+                    btnsAnchor[i-1].Checked = false;
                 }
             }
-            return whichclicked + 1;
-        }
+            buttonEnabler(whichclicked);
+            return whichclicked;
+        } // 앵커 버튼을 클릭했을 때, 버튼의 보이는 상태를 바꿈.
+        public void buttonEnabler(int i)
+        {
+            switch (i)
+            {
+                case 1: case 3: case 5: case 7: case 9: btn_Expand.Enabled = false; break;
+                default:btn_Expand.Enabled = true; break;
+            }
+            switch (i)
+            {
+                case 1:
+                    btnGather.Image = global::m00npieces.Properties.Resources.alignTopLeft;
+                    break;
+                case 2:
+                    btnGather.Image = global::m00npieces.Properties.Resources.alignTop;
+                    btn_Expand.Image = global::m00npieces.Properties.Resources.stretchbytop;
+                    break;
+                case 3:
+                    btnGather.Image = global::m00npieces.Properties.Resources.alignTopRight;
+                    break;
+                case 4:
+                    btnGather.Image = global::m00npieces.Properties.Resources.alignLeft;
+                    btn_Expand.Image = global::m00npieces.Properties.Resources.stretchbyleft;
+                    break;
+                case 5:
+                    btnGather.Image = global::m00npieces.Properties.Resources.alignMiddleAndCenter;
+                    break;
+                case 6:
+                    btnGather.Image = global::m00npieces.Properties.Resources.alignRight;
+                    btn_Expand.Image = global::m00npieces.Properties.Resources.stretchbyright;
+                    break;
+                case 7:
+                    btnGather.Image = global::m00npieces.Properties.Resources.alignBottomLeft;
+                    break;
+                case 8:
+                    btnGather.Image = global::m00npieces.Properties.Resources.alignBottom;
+                    btn_Expand.Image = global::m00npieces.Properties.Resources.stretchbybottom;
+                    break;
+                case 9:
+                    btnGather.Image = global::m00npieces.Properties.Resources.alignBottomRight;
+                    break;
+                default:break;
+            }
 
-        private void BtnMatchSize_Click(object sender, RibbonControlEventArgs e) // 사이즈 매치
+        } // 좀 더 세련된 방법이 없을까..?
+
+        private void BtnMatchSize_Click(object sender, RibbonControlEventArgs e) 
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             try
@@ -210,8 +258,8 @@ namespace m00npieces
 
             }
             catch { }
-        
-        }
+
+        } // 사이즈 매치
         public void UndoLikeSomething(PowerPoint.Shape shape, int i)
         {
             shape.Top = origShapes[i - 2].Top;
@@ -220,7 +268,7 @@ namespace m00npieces
             shape.Height = origShapes[i - 2].Height;
         }
 
-        public void GetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) // 도형 2개를 근거로, 위치 변경 후 2번째 도형의 바뀌어야 하는 Top, Left값 산출
+        public void GetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) 
         {
             switch (intAnchorPoint)
             {
@@ -235,8 +283,8 @@ namespace m00npieces
                 case 9:top = first.Top + first.Height - second.Height;left = first.Left + first.Width - second.Width;break;
                 default:top = first.Top;left = first.Left;break;
             }
-        }
-        public void MatchSizeGetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) // 도형 2개를 근거로, 크기 변경 후 앵커 설정에 의해 바뀌어야 하는 2번째 도형의 위치값 산출
+        } // 도형 2개를 근거로, 위치 변경 후 2번째 도형의 바뀌어야 하는 Top, Left값 산출
+        public void MatchSizeGetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) 
         {
             switch (intAnchorPoint)
             {
@@ -251,55 +299,9 @@ namespace m00npieces
                 case 8:top = second.Top - (first.Height - second.Height);left = second.Left - (first.Width - second.Width) / 2;break;
                 case 9:top = second.Top - (first.Height - second.Height);left = second.Left - (first.Width - second.Width);break;
             }
-        }
-        #region
-        private void BtnTL_Click(object sender, RibbonControlEventArgs e) // 앵커 버튼 누를 때마다, 함수 호출해서 값 설정
-        {
-            intAnchorPoint = btnAnchor_Clicked(0);
-        }
+        } // 도형 2개를 근거로, 크기 변경 후 앵커 설정에 의해 바뀌어야 하는 2번째 도형의 위치값 산출
 
-        private void BtnTC_Click(object sender, RibbonControlEventArgs e)
-        {
-            intAnchorPoint = btnAnchor_Clicked(1);
-        }
-
-        private void BtnTR_Click(object sender, RibbonControlEventArgs e)
-        {
-            intAnchorPoint = btnAnchor_Clicked(2);
-        }
-
-        private void BtnML_Click(object sender, RibbonControlEventArgs e)
-        {
-            intAnchorPoint = btnAnchor_Clicked(3);
-        }
-
-        private void BtnMC_Click(object sender, RibbonControlEventArgs e)
-        {
-            intAnchorPoint = btnAnchor_Clicked(4);
-        }
-
-        private void BtnMR_Click(object sender, RibbonControlEventArgs e)
-        {
-            intAnchorPoint = btnAnchor_Clicked(5);
-        }
-
-        private void BtnBL_Click(object sender, RibbonControlEventArgs e)
-        {
-            intAnchorPoint = btnAnchor_Clicked(6);
-        }
-
-        private void BtnBC_Click(object sender, RibbonControlEventArgs e)
-        {
-            intAnchorPoint = btnAnchor_Clicked(7);
-        }
-
-        private void BtnBR_Click(object sender, RibbonControlEventArgs e)
-        {
-            intAnchorPoint = btnAnchor_Clicked(8);
-        }
-        #endregion
-
-        private void btnFontAntiAlias_Clicked(object sender, RibbonControlEventArgs e) // 글씨를 예쁘게
+        private void btnFontAntiAlias_Clicked(object sender, RibbonControlEventArgs e) 
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             for (int i = 2; i <= sel.ShapeRange.Count; i++)
@@ -314,9 +316,9 @@ namespace m00npieces
                 }
             }
             Globals.ThisAddIn.Application.StartNewUndoEntry();
-        }
+        } // 글씨를 예쁘게
 
-        private void EdtGoToSlide_changed(object sender, RibbonControlEventArgs e) // 슬라이드 번호 입력시, 해당 슬라이드로 이동
+        private void EdtGoToSlide_changed(object sender, RibbonControlEventArgs e) 
         {
             try
             {
@@ -327,8 +329,8 @@ namespace m00npieces
             {
                 edtGoToSlide.Text = Globals.ThisAddIn.Application.ActiveWindow.View.Slide.SlideIndex.ToString();
             }
-        }
-        private void SlideNoOnEdtbx(PowerPoint.SlideRange SldRange) // 슬라이드 이동시, 현재 슬라이드 번호를 에디트 박스에 넣어줌 ㅎ.ㅎ
+        } // 슬라이드 번호 입력시, 해당 슬라이드로 이동
+        private void SlideNoOnEdtbx(PowerPoint.SlideRange SldRange) 
         {
             try
             {
@@ -338,9 +340,8 @@ namespace m00npieces
             {
 
             }
-        }
-
-        private void btnAdjoinHorizontal_Clicked(object sender, RibbonControlEventArgs e) // 가로로 붙이기
+        } // 슬라이드 이동시, 현재 슬라이드 번호를 에디트 박스에 넣어줌 ㅎ.ㅎ
+        private void btnAdjoinHorizontal_Clicked(object sender, RibbonControlEventArgs e) 
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             List<PowerPoint.Shape> shapesInSlide = new List<PowerPoint.Shape>();
@@ -358,9 +359,8 @@ namespace m00npieces
             //    leftsortedShape[i-1].TextFrame.TextRange.Text = i.ToString();
             //}
 
-        }
-
-        private void BtnAdjoinVertical_Click(object sender, RibbonControlEventArgs e) // 세로로 붙이기
+        } // 가로로 붙이기
+        private void BtnAdjoinVertical_Click(object sender, RibbonControlEventArgs e) 
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             List<PowerPoint.Shape> shapesInSlide = new List<PowerPoint.Shape>();
@@ -373,8 +373,8 @@ namespace m00npieces
             {
                 topsortedShape[i].Top = topsortedShape[i - 1].Top + topsortedShape[i - 1].Height;
             }
-        }
-        private void Btn_Expand_Click(object sender, RibbonControlEventArgs e) // 늘이기 
+        } // 세로로 붙이기
+        private void Btn_Expand_Click(object sender, RibbonControlEventArgs e)  
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             switch (intAnchorPoint)
@@ -448,13 +448,13 @@ namespace m00npieces
                 default:
                     break;
             } // 앵커 위치에 따라 늘이는 방향 달라짐.
-        } 
+        }  // 늘이기
         public float Right(PowerPoint.Shape o) { return o.Left + o.Width ; }
         public float Bottom(PowerPoint.Shape o) { return o.Top + o.Height; }
-        // 모으기 구현
-        private void BtnGather_Click(object sender, RibbonControlEventArgs e) // 모으기
+        private void BtnGather_Click(object sender, RibbonControlEventArgs e) 
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+            if (onStage == Stage.None)
             for (int i = 2; i <= sel.ShapeRange.Count; i++)
             {
                 float difTop, difLeft;
@@ -462,8 +462,8 @@ namespace m00npieces
                 sel.ShapeRange[i].IncrementTop(difTop);
                 sel.ShapeRange[i].IncrementLeft(difLeft);
             }
-        }
-        public void GatherGetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) // 앵커를 기준으로 모아줘야할 나머지 도형의 위치값 증감분을 계산
+        } // 모으기
+        public void GatherGetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) 
         {
 
             switch (intAnchorPoint)
@@ -479,7 +479,7 @@ namespace m00npieces
                 case 9:top = first.Top - second.Top - (second.Height - first.Height);left = first.Left - second.Left - (second.Width - first.Width);break;
                 default:top = first.Top - second.Top;left = first.Left - second.Left;break;
             }
-        }
+        } // 앵커를 기준으로 모아줘야할 나머지 도형의 위치값 증감분을 계산
 
         private void BtnSync_Click(object sender, RibbonControlEventArgs e)
         {
@@ -514,6 +514,19 @@ namespace m00npieces
             //{ tag.}
             //MessageBox.Show();
         }
+        
+        // 앵커 버튼 클릭에 따른 동작 
+        #region 
+        private void BtnTL_Click(object sender, RibbonControlEventArgs e) {intAnchorPoint = btnAnchor_Clicked(1);}
+        private void BtnTC_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(2);}
+        private void BtnTR_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(3);}
+        private void BtnML_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(4);}
+        private void BtnMC_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(5);}
+        private void BtnMR_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(6);}
+        private void BtnBL_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(7);}
+        private void BtnBC_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(8);}
+        private void BtnBR_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(9);}
+        #endregion
     }
 
 
