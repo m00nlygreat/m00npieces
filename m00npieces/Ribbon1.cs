@@ -7,8 +7,6 @@ using System.Windows.Forms;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 
-
-
 namespace m00npieces
 {
 
@@ -16,7 +14,7 @@ namespace m00npieces
     {
         int intAnchorPoint;
         List<SizeAndLocation> origShapes = new List<SizeAndLocation>();
-        enum Stage { None, Swapped = 10, SizeMatched = 20, WidthMatched, Aligned = 30 }
+        enum Stage { None, Swapped = 10, SizeMatched = 20, WidthMatched, Aligned = 30, AlignedTwice }
         Stage onStage = Stage.None;
         // 버튼의 누름 상태를 표시하는 열거형
 
@@ -46,6 +44,8 @@ namespace m00npieces
 
             btnMatchSize.Image = global::m00npieces.Properties.Resources.expand;
             btnMatchSize.Label = "크기맞춤";
+
+            btnGather.Image = global::m00npieces.Properties.Resources.alignMiddle;
 
             origShapes.Clear(); // Stage 상태를 해제한다.
         }
@@ -178,7 +178,7 @@ namespace m00npieces
                     btn_Expand.Image = global::m00npieces.Properties.Resources.stretchbyleft;
                     break;
                 case 5:
-                    btnGather.Image = global::m00npieces.Properties.Resources.alignMiddleAndCenter;
+                    btnGather.Image = global::m00npieces.Properties.Resources.alignMiddle;
                     break;
                 case 6:
                     btnGather.Image = global::m00npieces.Properties.Resources.alignRight;
@@ -198,7 +198,6 @@ namespace m00npieces
             }
 
         } // 좀 더 세련된 방법이 없을까..?
-
         private void BtnMatchSize_Click(object sender, RibbonControlEventArgs e) 
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
@@ -454,14 +453,107 @@ namespace m00npieces
         private void BtnGather_Click(object sender, RibbonControlEventArgs e) 
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
-            if (onStage == Stage.None)
-            for (int i = 2; i <= sel.ShapeRange.Count; i++)
+            switch (intAnchorPoint)
             {
-                float difTop, difLeft;
-                GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
-                sel.ShapeRange[i].IncrementTop(difTop);
-                sel.ShapeRange[i].IncrementLeft(difLeft);
+                case 1: case 3: case 7: case 9:
+                    for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                    {
+                        float difTop, difLeft;
+                        GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
+                        sel.ShapeRange[i].IncrementTop(difTop);
+                        sel.ShapeRange[i].IncrementLeft(difLeft);
+                    }
+                    break;
+                case 2: case 8:
+                    switch (onStage)
+                        {
+                        default: 
+                            for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                            {
+                                float difTop, difLeft;
+                                GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
+                                sel.ShapeRange[i].IncrementTop(difTop);
+
+                            }
+                            onStage = Stage.Aligned;
+                            break;
+                        case Stage.Aligned:
+                            for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                            {
+                                float difTop, difLeft;
+                                GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
+                                sel.ShapeRange[i].IncrementLeft(difLeft);
+                            }
+                            onStage = Stage.None;
+                            break;
+                        }
+                    break;
+                        case 4: case 6:
+                    switch (onStage)
+                    {
+                        default:
+                            for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                            {
+                                float difTop, difLeft;
+                                GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
+                                sel.ShapeRange[i].IncrementLeft(difLeft);
+                            }
+                            onStage = Stage.Aligned;
+                            break;
+                        case Stage.Aligned:
+                            for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                            {
+                                float difTop, difLeft;
+                                GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
+                                sel.ShapeRange[i].IncrementTop(difTop);
+                            }
+                            onStage = Stage.None;
+                            break;
+                    }
+                    break;
+                case 5:
+
+                    switch (onStage)
+                    {
+                        default:
+                            for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                            {
+                                origShapes.Add(new SizeAndLocation() { Top = sel.ShapeRange[i].Top, Left = sel.ShapeRange[i].Left, Width = sel.ShapeRange[i].Width, Height = sel.ShapeRange[i].Height });
+                                float difTop, difLeft;
+                                GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
+                                sel.ShapeRange[i].IncrementTop(difTop);
+                                
+                            }
+                            onStage = Stage.Aligned;
+                            btnGather.Image = global::m00npieces.Properties.Resources.alignCenter;
+                            break;
+                        case Stage.Aligned:
+                            for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                            {
+                                UndoLikeSomething(sel.ShapeRange[i], i);
+                                float difTop, difLeft;
+                                GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
+                                sel.ShapeRange[i].IncrementLeft(difLeft);
+                            }
+                            onStage = Stage.AlignedTwice;
+                            btnGather.Image = global::m00npieces.Properties.Resources.alignMiddleAndCenter;
+                            break;
+                        case Stage.AlignedTwice:
+                            for (int i = 2; i <= sel.ShapeRange.Count; i++)
+                            {
+                                float difTop, difLeft;
+                                GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
+                                sel.ShapeRange[i].IncrementTop(difTop);
+                            }
+                            onStage = Stage.None;
+                            GetOffTheStage();
+                            break;
+                    }
+                    break;
+                default:
+                    break;
             }
+            
         } // 모으기
         public void GatherGetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) 
         {
