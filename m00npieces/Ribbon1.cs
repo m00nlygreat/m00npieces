@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows.Forms;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
-
 namespace m00npieces
 {
 
@@ -476,6 +475,7 @@ namespace m00npieces
 
                             }
                             onStage = Stage.Aligned;
+                            btnGather.Image = (intAnchorPoint == 2) ? Properties.Resources.gatherTop : Properties.Resources.gatherBottom;
                             break;
                         case Stage.Aligned:
                             for (int i = 2; i <= sel.ShapeRange.Count; i++)
@@ -484,7 +484,7 @@ namespace m00npieces
                                 GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
                                 sel.ShapeRange[i].IncrementLeft(difLeft);
                             }
-                            onStage = Stage.None;
+                            GetOffTheStage();
                             break;
                         }
                     break;
@@ -499,6 +499,7 @@ namespace m00npieces
                                 sel.ShapeRange[i].IncrementLeft(difLeft);
                             }
                             onStage = Stage.Aligned;
+                            btnGather.Image = (intAnchorPoint == 4) ? Properties.Resources.gatherLeft : Properties.Resources.gatherRight;
                             break;
                         case Stage.Aligned:
                             for (int i = 2; i <= sel.ShapeRange.Count; i++)
@@ -507,7 +508,7 @@ namespace m00npieces
                                 GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
                                 sel.ShapeRange[i].IncrementTop(difTop);
                             }
-                            onStage = Stage.None;
+                            GetOffTheStage();
                             break;
                     }
                     break;
@@ -545,7 +546,6 @@ namespace m00npieces
                                 GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
                                 sel.ShapeRange[i].IncrementTop(difTop);
                             }
-                            onStage = Stage.None;
                             GetOffTheStage();
                             break;
                     }
@@ -625,6 +625,7 @@ namespace m00npieces
     //PowerPoint._Application myPPT = Globals.ThisAddIn.Application;
     //PowerPoint.Slide curSlide = myPPT.ActiveWindow.View.Slide;
 }
+
 // 표의 텍스트 외곽선주기. 외 않데? 는지 도통 모르겄따
 //try
 //  {
