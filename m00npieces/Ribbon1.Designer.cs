@@ -49,16 +49,30 @@
             this.btnMR = this.Factory.CreateRibbonToggleButton();
             this.btnBR = this.Factory.CreateRibbonToggleButton();
             this.group4 = this.Factory.CreateRibbonGroup();
+            this.btnSync = this.Factory.CreateRibbonButton();
+            this.separator1 = this.Factory.CreateRibbonSeparator();
+            this.group3 = this.Factory.CreateRibbonGroup();
+            this.checkBox1 = this.Factory.CreateRibbonCheckBox();
+            this.checkBox2 = this.Factory.CreateRibbonCheckBox();
+            this.checkBox3 = this.Factory.CreateRibbonCheckBox();
+            this.checkBox4 = this.Factory.CreateRibbonCheckBox();
+            this.separator2 = this.Factory.CreateRibbonSeparator();
+            this.editBox1 = this.Factory.CreateRibbonEditBox();
+            this.editBox2 = this.Factory.CreateRibbonEditBox();
+            this.editBox3 = this.Factory.CreateRibbonEditBox();
+            this.editBox4 = this.Factory.CreateRibbonEditBox();
             this.btnSwap = this.Factory.CreateRibbonButton();
             this.btnMatchSize = this.Factory.CreateRibbonButton();
             this.btn_Expand = this.Factory.CreateRibbonButton();
             this.btnGather = this.Factory.CreateRibbonButton();
-            this.btnSync = this.Factory.CreateRibbonButton();
-            this.separator1 = this.Factory.CreateRibbonSeparator();
             this.btnAdjoinHorizontal = this.Factory.CreateRibbonButton();
             this.btnAdjoinVertical = this.Factory.CreateRibbonButton();
-            this.group3 = this.Factory.CreateRibbonGroup();
             this.btnFontAntiAlias = this.Factory.CreateRibbonButton();
+            this.label1 = this.Factory.CreateRibbonLabel();
+            this.label2 = this.Factory.CreateRibbonLabel();
+            this.button1 = this.Factory.CreateRibbonButton();
+            this.button2 = this.Factory.CreateRibbonButton();
+            this.separator3 = this.Factory.CreateRibbonSeparator();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -191,8 +205,85 @@
             this.group4.Items.Add(this.separator1);
             this.group4.Items.Add(this.btnAdjoinHorizontal);
             this.group4.Items.Add(this.btnAdjoinVertical);
+            this.group4.Items.Add(this.separator2);
+            this.group4.Items.Add(this.btnFontAntiAlias);
             this.group4.Label = "Shape";
             this.group4.Name = "group4";
+            // 
+            // btnSync
+            // 
+            this.btnSync.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnSync.Label = "동기화";
+            this.btnSync.Name = "btnSync";
+            this.btnSync.ShowImage = true;
+            this.btnSync.Visible = false;
+            this.btnSync.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnSync_Click);
+            // 
+            // separator1
+            // 
+            this.separator1.Name = "separator1";
+            // 
+            // group3
+            // 
+            this.group3.Items.Add(this.label1);
+            this.group3.Items.Add(this.editBox1);
+            this.group3.Items.Add(this.editBox2);
+            this.group3.Items.Add(this.label2);
+            this.group3.Items.Add(this.editBox3);
+            this.group3.Items.Add(this.editBox4);
+            this.group3.Items.Add(this.separator3);
+            this.group3.Items.Add(this.button1);
+            this.group3.Items.Add(this.checkBox1);
+            this.group3.Items.Add(this.checkBox2);
+            this.group3.Items.Add(this.button2);
+            this.group3.Items.Add(this.checkBox3);
+            this.group3.Items.Add(this.checkBox4);
+            this.group3.Label = "et cetra";
+            this.group3.Name = "group3";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Label = "X";
+            this.checkBox1.Name = "checkBox1";
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.Label = "Y";
+            this.checkBox2.Name = "checkBox2";
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.Label = "Width";
+            this.checkBox3.Name = "checkBox3";
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.Label = "Height";
+            this.checkBox4.Name = "checkBox4";
+            // 
+            // separator2
+            // 
+            this.separator2.Name = "separator2";
+            // 
+            // editBox1
+            // 
+            this.editBox1.Label = "X";
+            this.editBox1.Name = "editBox1";
+            // 
+            // editBox2
+            // 
+            this.editBox2.Label = "Y";
+            this.editBox2.Name = "editBox2";
+            // 
+            // editBox3
+            // 
+            this.editBox3.Label = "Width";
+            this.editBox3.Name = "editBox3";
+            // 
+            // editBox4
+            // 
+            this.editBox4.Label = "Height";
+            this.editBox4.Name = "editBox4";
             // 
             // btnSwap
             // 
@@ -230,22 +321,11 @@
             // 
             this.btnGather.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnGather.Image = global::m00npieces.Properties.Resources.alignMiddle;
+            this.btnGather.KeyTip = "G";
             this.btnGather.Label = "모으기";
             this.btnGather.Name = "btnGather";
             this.btnGather.ShowImage = true;
             this.btnGather.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnGather_Click);
-            // 
-            // btnSync
-            // 
-            this.btnSync.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnSync.Label = "동기화";
-            this.btnSync.Name = "btnSync";
-            this.btnSync.ShowImage = true;
-            this.btnSync.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnSync_Click);
-            // 
-            // separator1
-            // 
-            this.separator1.Name = "separator1";
             // 
             // btnAdjoinHorizontal
             // 
@@ -267,12 +347,6 @@
             this.btnAdjoinVertical.ShowImage = true;
             this.btnAdjoinVertical.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnAdjoinVertical_Click);
             // 
-            // group3
-            // 
-            this.group3.Items.Add(this.btnFontAntiAlias);
-            this.group3.Label = "et cetra";
-            this.group3.Name = "group3";
-            // 
             // btnFontAntiAlias
             // 
             this.btnFontAntiAlias.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -281,6 +355,32 @@
             this.btnFontAntiAlias.Name = "btnFontAntiAlias";
             this.btnFontAntiAlias.ShowImage = true;
             this.btnFontAntiAlias.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnFontAntiAlias_Clicked);
+            // 
+            // label1
+            // 
+            this.label1.Label = "위치";
+            this.label1.Name = "label1";
+            // 
+            // label2
+            // 
+            this.label2.Label = "크기";
+            this.label2.Name = "label2";
+            // 
+            // button1
+            // 
+            this.button1.Label = "복사";
+            this.button1.Name = "button1";
+            this.button1.ShowImage = true;
+            // 
+            // button2
+            // 
+            this.button2.Label = "붙여넣기";
+            this.button2.Name = "button2";
+            this.button2.ShowImage = true;
+            // 
+            // separator3
+            // 
+            this.separator3.Name = "separator3";
             // 
             // Ribbon1
             // 
@@ -329,6 +429,20 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox ebxName;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnSync;
         public Microsoft.Office.Tools.Ribbon.RibbonButton btnMatchSize;
+        internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator2;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBox1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBox2;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBox3;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBox4;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox editBox1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox editBox2;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox editBox3;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox editBox4;
+        internal Microsoft.Office.Tools.Ribbon.RibbonLabel label1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonLabel label2;
+        internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator3;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button2;
     }
 
     partial class ThisRibbonCollection
