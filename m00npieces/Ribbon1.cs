@@ -13,6 +13,7 @@ namespace m00npieces
     {
         int intAnchorPoint;
         List<SizeAndLocation> origShapes = new List<SizeAndLocation>();
+        SizeAndLocation copied = new SizeAndLocation();
         enum Stage { None, Swapped = 10, SizeMatched = 20, WidthMatched, Aligned = 30, AlignedTwice }
         Stage onStage = Stage.None;
         // 버튼의 누름 상태를 표시하는 열거형
@@ -678,6 +679,29 @@ namespace m00npieces
             try { Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Left = float.Parse(ebxLeft.Text); } catch { }
         }
 
+        private void BtnCopySizLoc_Click(object sender, RibbonControlEventArgs e)
+        {
+            var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+            try
+            {
+                copied.Left = sel.ShapeRange.Left;
+                copied.Top = sel.ShapeRange.Top;
+                copied.Width = sel.ShapeRange.Width;
+                copied.Height = sel.ShapeRange.Height;
+                    } catch { }
+        }
+
+        private void BtnPasteSizLoc_Click(object sender, RibbonControlEventArgs e)
+        {
+            var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+            try
+            {
+                sel.ShapeRange.Left = (cbxLeft.Checked == true) ? copied.Left : sel.ShapeRange.Left ;
+                sel.ShapeRange.Top = (cbxTop.Checked == true) ? copied.Top : sel.ShapeRange.Top;
+                sel.ShapeRange.Width = (cbxWidth.Checked == true) ? copied.Width : sel.ShapeRange.Width;
+                sel.ShapeRange.Height = (cbxHeight.Checked == true) ? copied.Height: sel.ShapeRange.Height;
+            } catch { }
+        }
     }
 
 

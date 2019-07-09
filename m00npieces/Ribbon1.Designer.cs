@@ -50,10 +50,10 @@
             this.ebxWidth = this.Factory.CreateRibbonEditBox();
             this.ebxHeight = this.Factory.CreateRibbonEditBox();
             this.separator3 = this.Factory.CreateRibbonSeparator();
-            this.checkBox1 = this.Factory.CreateRibbonCheckBox();
-            this.checkBox2 = this.Factory.CreateRibbonCheckBox();
-            this.checkBox3 = this.Factory.CreateRibbonCheckBox();
-            this.checkBox4 = this.Factory.CreateRibbonCheckBox();
+            this.cbxLeft = this.Factory.CreateRibbonCheckBox();
+            this.cbxTop = this.Factory.CreateRibbonCheckBox();
+            this.cbxWidth = this.Factory.CreateRibbonCheckBox();
+            this.cbxHeight = this.Factory.CreateRibbonCheckBox();
             this.btnHide = this.Factory.CreateRibbonButton();
             this.btnTL = this.Factory.CreateRibbonToggleButton();
             this.btnML = this.Factory.CreateRibbonToggleButton();
@@ -72,8 +72,8 @@
             this.btnAdjoinHorizontal = this.Factory.CreateRibbonButton();
             this.btnAdjoinVertical = this.Factory.CreateRibbonButton();
             this.btnFontAntiAlias = this.Factory.CreateRibbonButton();
-            this.button1 = this.Factory.CreateRibbonButton();
-            this.button2 = this.Factory.CreateRibbonButton();
+            this.btnCopySizLoc = this.Factory.CreateRibbonButton();
+            this.btnPasteSizLoc = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -166,12 +166,12 @@
             this.group3.Items.Add(this.ebxWidth);
             this.group3.Items.Add(this.ebxHeight);
             this.group3.Items.Add(this.separator3);
-            this.group3.Items.Add(this.button1);
-            this.group3.Items.Add(this.checkBox1);
-            this.group3.Items.Add(this.checkBox2);
-            this.group3.Items.Add(this.button2);
-            this.group3.Items.Add(this.checkBox3);
-            this.group3.Items.Add(this.checkBox4);
+            this.group3.Items.Add(this.btnCopySizLoc);
+            this.group3.Items.Add(this.cbxLeft);
+            this.group3.Items.Add(this.cbxTop);
+            this.group3.Items.Add(this.btnPasteSizLoc);
+            this.group3.Items.Add(this.cbxWidth);
+            this.group3.Items.Add(this.cbxHeight);
             this.group3.Label = "et cetra";
             this.group3.Name = "group3";
             // 
@@ -221,25 +221,29 @@
             // 
             this.separator3.Name = "separator3";
             // 
-            // checkBox1
+            // cbxLeft
             // 
-            this.checkBox1.Label = "X";
-            this.checkBox1.Name = "checkBox1";
+            this.cbxLeft.Checked = true;
+            this.cbxLeft.Label = "X";
+            this.cbxLeft.Name = "cbxLeft";
             // 
-            // checkBox2
+            // cbxTop
             // 
-            this.checkBox2.Label = "Y";
-            this.checkBox2.Name = "checkBox2";
+            this.cbxTop.Checked = true;
+            this.cbxTop.Label = "Y";
+            this.cbxTop.Name = "cbxTop";
             // 
-            // checkBox3
+            // cbxWidth
             // 
-            this.checkBox3.Label = "Width";
-            this.checkBox3.Name = "checkBox3";
+            this.cbxWidth.Checked = true;
+            this.cbxWidth.Label = "Width";
+            this.cbxWidth.Name = "cbxWidth";
             // 
-            // checkBox4
+            // cbxHeight
             // 
-            this.checkBox4.Label = "Height";
-            this.checkBox4.Name = "checkBox4";
+            this.cbxHeight.Checked = true;
+            this.cbxHeight.Label = "Height";
+            this.cbxHeight.Name = "cbxHeight";
             // 
             // btnHide
             // 
@@ -392,17 +396,19 @@
             this.btnFontAntiAlias.ShowImage = true;
             this.btnFontAntiAlias.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnFontAntiAlias_Clicked);
             // 
-            // button1
+            // btnCopySizLoc
             // 
-            this.button1.Label = "복사";
-            this.button1.Name = "button1";
-            this.button1.ShowImage = true;
+            this.btnCopySizLoc.Label = "복사";
+            this.btnCopySizLoc.Name = "btnCopySizLoc";
+            this.btnCopySizLoc.ShowImage = true;
+            this.btnCopySizLoc.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnCopySizLoc_Click);
             // 
-            // button2
+            // btnPasteSizLoc
             // 
-            this.button2.Label = "붙여넣기";
-            this.button2.Name = "button2";
-            this.button2.ShowImage = true;
+            this.btnPasteSizLoc.Label = "붙여넣기";
+            this.btnPasteSizLoc.Name = "btnPasteSizLoc";
+            this.btnPasteSizLoc.ShowImage = true;
+            this.btnPasteSizLoc.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnPasteSizLoc_Click);
             // 
             // Ribbon1
             // 
@@ -452,10 +458,10 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnSync;
         public Microsoft.Office.Tools.Ribbon.RibbonButton btnMatchSize;
         internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator2;
-        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBox1;
-        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBox2;
-        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBox3;
-        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBox4;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox cbxLeft;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox cbxTop;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox cbxWidth;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox cbxHeight;
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox ebxLeft;
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox ebxTop;
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox ebxWidth;
@@ -463,8 +469,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonLabel label1;
         internal Microsoft.Office.Tools.Ribbon.RibbonLabel label2;
         internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator3;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button2;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCopySizLoc;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnPasteSizLoc;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnHide;
     }
 
