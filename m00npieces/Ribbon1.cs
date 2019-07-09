@@ -17,7 +17,7 @@ namespace m00npieces
         Stage onStage = Stage.None;
         // 버튼의 누름 상태를 표시하는 열거형
 
-        private class SizeAndLocation 
+        private class SizeAndLocation
         {
             public float Top;
             public float Left;
@@ -29,12 +29,44 @@ namespace m00npieces
         {
             intAnchorPoint = btnAnchor_Clicked(1); // 초기 Anchor 설정
             Globals.ThisAddIn.Application.SlideSelectionChanged += SlideNoOnEdtbx; // 슬라이드 이동(포커스 이동)시 슬라이드 번호를 에디트 박스에 입력
-            Globals.ThisAddIn.Application.WindowSelectionChange += UpdateObjectName;
+            Globals.ThisAddIn.Application.WindowSelectionChange += updateObjectInfo;
+            Globals.ThisAddIn.Application.AfterShapeSizeChange += updateObjectInfo;
             Globals.ThisAddIn.Application.WindowSelectionChange += offtheStageWhenYouSelectAnother;
         }
 
-        private void offtheStageWhenYouSelectAnother(PowerPoint.Selection Sel) { GetOffTheStage();}
-        private void GetOffTheStage() 
+        private void updateObjectInfo(PowerPoint.Shape shp)
+        {
+            if (Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Count >= 2)
+            {
+                updateObjectInfo(Globals.ThisAddIn.Application.ActiveWindow.Selection);
+            }
+            else
+            {
+                try { ebxName.Text = shp.Name; } catch { ebxName.Text = ""; }
+                try { ebxLeft.Text = shp.Left.ToString(); } catch { ebxLeft.Text = ""; }
+                try { ebxTop.Text = shp.Top.ToString(); } catch { ebxTop.Text = ""; }
+                try { ebxWidth.Text = shp.Width.ToString(); } catch { ebxWidth.Text = ""; }
+                try { ebxHeight.Text = shp.Height.ToString(); } catch { ebxHeight.Text = ""; }
+            }
+        }
+        private void updateObjectInfo(PowerPoint.Selection sel)
+        {
+            try { ebxName.Text = (sel.ShapeRange.Count == 1) ? sel.ShapeRange.Name : ""; } catch { ebxName.Text = ""; }
+            try { ebxLeft.Text = (sel.ShapeRange.Count == 1) ? sel.ShapeRange.Left.ToString() : ""; } catch { ebxLeft.Text = ""; }
+            try { ebxTop.Text = (sel.ShapeRange.Count == 1) ? sel.ShapeRange.Top.ToString() : ""; } catch { ebxTop.Text = ""; }
+            try { ebxWidth.Text = (sel.ShapeRange.Count == 1) ? sel.ShapeRange.Width.ToString() : ""; } catch { ebxWidth.Text = ""; }
+            try { ebxHeight.Text = (sel.ShapeRange.Count == 1) ? sel.ShapeRange.Height.ToString() : ""; } catch { ebxHeight.Text = ""; }
+        } // 이름과 도형의 크기, 위치값을 업데이트
+        private bool trueIfAllShapesHaveSameValue(PowerPoint.ShapeRange shps, string value)
+        {
+            foreach (var shp in shps)
+            {
+               
+            }
+            return true;
+        }
+        private void offtheStageWhenYouSelectAnother(PowerPoint.Selection Sel) { GetOffTheStage(); }
+        private void GetOffTheStage()
         {
             onStage = Stage.None;
 
@@ -49,14 +81,22 @@ namespace m00npieces
             origShapes.Clear(); // Stage 상태를 해제한다.
         }
 
-        private void UpdateObjectName(PowerPoint.Selection sel) 
-        {
-            try { ebxName.Text = (sel.ShapeRange.Count == 1) ? sel.ShapeRange.Name : ""; }  catch { ebxName.Text = ""; }
-        } // 이름을 표시한다.
-        private void EbxName_TextChanged(object sender, RibbonControlEventArgs e) 
+        private void EbxName_TextChanged(object sender, RibbonControlEventArgs e)
         {
             try { Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Name = ebxName.Text; } catch { }
         } // 이름을 바꾸면, 개체의 이름도 바꿈.
+        private void EbxTop_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+            try { Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Top = float.Parse(ebxTop.Text); } catch { }
+        }
+        private void EbxWidth_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+            try { Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Width = float.Parse(ebxWidth.Text); } catch { }
+        }
+        private void EbxHeight_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+            try { Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Height = float.Parse(ebxHeight.Text); } catch { }
+        }
 
         private void btnSwap_Clicked(object sender, RibbonControlEventArgs e)
         {
@@ -119,7 +159,7 @@ namespace m00npieces
             }
         }
 
-        public int WhereInSlide(PowerPoint.Shape shape) 
+        public int WhereInSlide(PowerPoint.Shape shape)
         {
             int intOrderInSlide = 0;
             var curSlide = Globals.ThisAddIn.Application.ActiveWindow.View.Slide;
@@ -135,19 +175,19 @@ namespace m00npieces
             }
             return intOrderInSlide;
         } //ZOrderPosition이 아닌, 실제 앞으로 보내기/뒤로 보내기 시 작동하는 선택 도형의 슬라이드 내 레이어 위치를 구한다.
-        public int btnAnchor_Clicked(int whichclicked) 
+        public int btnAnchor_Clicked(int whichclicked)
         {
             RibbonToggleButton[] btnsAnchor = new RibbonToggleButton[9] { btnTL, btnTC, btnTR, btnML, btnMC, btnMR, btnBL, btnBC, btnBR }; // 앵커를 설정하는 9개 버튼을 일단 배열에 담아봄.
-            for (int i = 1; i <= btnsAnchor.Length; i++) 
+            for (int i = 1; i <= btnsAnchor.Length; i++)
             {
                 if (i == whichclicked)
                 {
-                    btnsAnchor[i-1].Label = "◆";
+                    btnsAnchor[i - 1].Label = "◆";
                 }
                 else
                 {
-                    btnsAnchor[i-1].Label = "◇";
-                    btnsAnchor[i-1].Checked = false;
+                    btnsAnchor[i - 1].Label = "◇";
+                    btnsAnchor[i - 1].Checked = false;
                 }
             }
             buttonEnabler(whichclicked);
@@ -158,7 +198,7 @@ namespace m00npieces
             switch (i)
             {
                 case 1: case 3: case 5: case 7: case 9: btn_Expand.Enabled = false; break;
-                default:btn_Expand.Enabled = true; break;
+                default: btn_Expand.Enabled = true; break;
             }
             switch (i)
             {
@@ -193,11 +233,11 @@ namespace m00npieces
                 case 9:
                     btnGather.Image = global::m00npieces.Properties.Resources.alignBottomRight;
                     break;
-                default:break;
+                default: break;
             }
 
         } // 좀 더 세련된 방법이 없을까..?
-        private void BtnMatchSize_Click(object sender, RibbonControlEventArgs e) 
+        private void BtnMatchSize_Click(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             try
@@ -226,7 +266,7 @@ namespace m00npieces
                         {
                             UndoLikeSomething(sel.ShapeRange[i], i);
                             float secondTop;
-                            float secondLeft; 
+                            float secondLeft;
                             MatchSizeGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out secondTop, out secondLeft);
                             sel.ShapeRange[i].Left = secondLeft;
                             sel.ShapeRange[i].Width = sel.ShapeRange[1].Width;
@@ -266,69 +306,71 @@ namespace m00npieces
             shape.Height = origShapes[i - 2].Height;
         }
 
-        public void GetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) 
+        public void GetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left)
         {
             switch (intAnchorPoint)
             {
-                case 1:top = first.Top;left = first.Left;break;
-                case 2:top = first.Top;left = first.Left + first.Width / 2 - second.Width / 2;break;
-                case 3:top = first.Top;left = first.Left + first.Width - second.Width;break;
-                case 4:top = first.Top + first.Height / 2 - second.Height / 2;left = first.Left;break;
-                case 5:top = first.Top + first.Height / 2 - second.Height / 2;left = first.Left + first.Width / 2 - second.Width / 2;break;
-                case 6:top = first.Top + first.Height / 2 - second.Height / 2;left = first.Left + first.Width - second.Width;break;
-                case 7:top = first.Top + first.Height - second.Height;left = first.Left;break;
-                case 8:top = first.Top + first.Height - second.Height;left = first.Left + first.Width / 2 - second.Width / 2;break;
-                case 9:top = first.Top + first.Height - second.Height;left = first.Left + first.Width - second.Width;break;
-                default:top = first.Top;left = first.Left;break;
+                case 1: top = first.Top; left = first.Left; break;
+                case 2: top = first.Top; left = first.Left + first.Width / 2 - second.Width / 2; break;
+                case 3: top = first.Top; left = first.Left + first.Width - second.Width; break;
+                case 4: top = first.Top + first.Height / 2 - second.Height / 2; left = first.Left; break;
+                case 5: top = first.Top + first.Height / 2 - second.Height / 2; left = first.Left + first.Width / 2 - second.Width / 2; break;
+                case 6: top = first.Top + first.Height / 2 - second.Height / 2; left = first.Left + first.Width - second.Width; break;
+                case 7: top = first.Top + first.Height - second.Height; left = first.Left; break;
+                case 8: top = first.Top + first.Height - second.Height; left = first.Left + first.Width / 2 - second.Width / 2; break;
+                case 9: top = first.Top + first.Height - second.Height; left = first.Left + first.Width - second.Width; break;
+                default: top = first.Top; left = first.Left; break;
             }
         } // 도형 2개를 근거로, 위치 변경 후 2번째 도형의 바뀌어야 하는 Top, Left값 산출
-        public void MatchSizeGetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) 
+        public void MatchSizeGetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left)
         {
             switch (intAnchorPoint)
             {
-                default:top = second.Top;left = second.Left;break;
-                case 1:top = second.Top;left = second.Left;break;
-                case 2:top = second.Top;left = second.Left - (first.Width - second.Width) / 2;break;
-                case 3:top = second.Top;left = second.Left - (first.Width - second.Width);break;
-                case 4:top = second.Top - (first.Height - second.Height) / 2;left = second.Left;break;
-                case 5:top = second.Top - (first.Height - second.Height) / 2;left = second.Left - (first.Width - second.Width) / 2;break;
-                case 6:top = second.Top - (first.Height - second.Height) / 2;left = second.Left - (first.Width - second.Width);break;
-                case 7:top = second.Top - (first.Height - second.Height);left = second.Left;break;
-                case 8:top = second.Top - (first.Height - second.Height);left = second.Left - (first.Width - second.Width) / 2;break;
-                case 9:top = second.Top - (first.Height - second.Height);left = second.Left - (first.Width - second.Width);break;
+                default: top = second.Top; left = second.Left; break;
+                case 1: top = second.Top; left = second.Left; break;
+                case 2: top = second.Top; left = second.Left - (first.Width - second.Width) / 2; break;
+                case 3: top = second.Top; left = second.Left - (first.Width - second.Width); break;
+                case 4: top = second.Top - (first.Height - second.Height) / 2; left = second.Left; break;
+                case 5: top = second.Top - (first.Height - second.Height) / 2; left = second.Left - (first.Width - second.Width) / 2; break;
+                case 6: top = second.Top - (first.Height - second.Height) / 2; left = second.Left - (first.Width - second.Width); break;
+                case 7: top = second.Top - (first.Height - second.Height); left = second.Left; break;
+                case 8: top = second.Top - (first.Height - second.Height); left = second.Left - (first.Width - second.Width) / 2; break;
+                case 9: top = second.Top - (first.Height - second.Height); left = second.Left - (first.Width - second.Width); break;
             }
         } // 도형 2개를 근거로, 크기 변경 후 앵커 설정에 의해 바뀌어야 하는 2번째 도형의 위치값 산출
 
-        private void btnFontAntiAlias_Clicked(object sender, RibbonControlEventArgs e) 
+
+        private void btnFontAntiAlias_Clicked(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             for (int i = 2; i <= sel.ShapeRange.Count; i++)
             {
                 if (sel.ShapeRange[i].HasTextFrame == MsoTriState.msoTrue)
                 {
-                    try{
+                    try
+                    {
                         sel.ShapeRange[i].TextFrame2.TextRange.Font.Line.Visible = MsoTriState.msoTrue;
                         sel.ShapeRange[i].TextFrame2.TextRange.Font.Line.Transparency = 1;
                     }
-                    catch{}
+                    catch { }
                 }
             }
             Globals.ThisAddIn.Application.StartNewUndoEntry();
         } // 글씨를 예쁘게
 
-        private void EdtGoToSlide_changed(object sender, RibbonControlEventArgs e) 
+        private void EdtGoToSlide_changed(object sender, RibbonControlEventArgs e)
         {
             try
             {
                 int slideNo = Convert.ToInt32(edtGoToSlide.Text);
-                Globals.ThisAddIn.Application.ActivePresentation.Slides[slideNo].Select(); 
+                Globals.ThisAddIn.Application.ActivePresentation.Slides[slideNo].Select();
             }
             catch // 에러시 그냥 원래 슬라이드 번호 다시 입력
             {
                 edtGoToSlide.Text = Globals.ThisAddIn.Application.ActiveWindow.View.Slide.SlideIndex.ToString();
             }
         } // 슬라이드 번호 입력시, 해당 슬라이드로 이동
-        private void SlideNoOnEdtbx(PowerPoint.SlideRange SldRange) 
+        private void SlideNoOnEdtbx(PowerPoint.SlideRange SldRange)
         {
             try
             {
@@ -339,7 +381,7 @@ namespace m00npieces
 
             }
         } // 슬라이드 이동시, 현재 슬라이드 번호를 에디트 박스에 넣어줌 ㅎ.ㅎ
-        private void btnAdjoinHorizontal_Clicked(object sender, RibbonControlEventArgs e) 
+        private void btnAdjoinHorizontal_Clicked(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             List<PowerPoint.Shape> shapesInSlide = new List<PowerPoint.Shape>();
@@ -358,7 +400,7 @@ namespace m00npieces
             //}
 
         } // 가로로 붙이기
-        private void BtnAdjoinVertical_Click(object sender, RibbonControlEventArgs e) 
+        private void BtnAdjoinVertical_Click(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             List<PowerPoint.Shape> shapesInSlide = new List<PowerPoint.Shape>();
@@ -372,7 +414,7 @@ namespace m00npieces
                 topsortedShape[i].Top = topsortedShape[i - 1].Top + topsortedShape[i - 1].Height;
             }
         } // 세로로 붙이기
-        private void Btn_Expand_Click(object sender, RibbonControlEventArgs e)  
+        private void Btn_Expand_Click(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             switch (intAnchorPoint)
@@ -393,10 +435,10 @@ namespace m00npieces
                         }
 
                     }
-                        break;
+                    break;
                 case 4:
-                    
-                        for (int i = 2; i <= sel.ShapeRange.Count; i++)
+
+                    for (int i = 2; i <= sel.ShapeRange.Count; i++)
                         if ((sel.ShapeRange[i].Left + sel.ShapeRange[i].Width) > sel.ShapeRange[1].Left)
                         {
                             float dif = sel.ShapeRange[1].Left - sel.ShapeRange[i].Left;
@@ -408,7 +450,7 @@ namespace m00npieces
                             float dif = sel.ShapeRange[1].Left - (sel.ShapeRange[i].Left + sel.ShapeRange[i].Width);
                             sel.ShapeRange[i].Width += dif;
                         }
-                        
+
                     break;
                 case 6:
                     for (int i = 2; i <= sel.ShapeRange.Count; i++)
@@ -447,14 +489,17 @@ namespace m00npieces
                     break;
             } // 앵커 위치에 따라 늘이는 방향 달라짐.
         }  // 늘이기
-        public float Right(PowerPoint.Shape o) { return o.Left + o.Width ; }
+        public float Right(PowerPoint.Shape o) { return o.Left + o.Width; }
         public float Bottom(PowerPoint.Shape o) { return o.Top + o.Height; }
-        private void BtnGather_Click(object sender, RibbonControlEventArgs e) 
+        private void BtnGather_Click(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             switch (intAnchorPoint)
             {
-                case 1: case 3: case 7: case 9:
+                case 1:
+                case 3:
+                case 7:
+                case 9:
                     for (int i = 2; i <= sel.ShapeRange.Count; i++)
                     {
                         float difTop, difLeft;
@@ -463,10 +508,11 @@ namespace m00npieces
                         sel.ShapeRange[i].IncrementLeft(difLeft);
                     }
                     break;
-                case 2: case 8:
+                case 2:
+                case 8:
                     switch (onStage)
-                        {
-                        default: 
+                    {
+                        default:
                             for (int i = 2; i <= sel.ShapeRange.Count; i++)
                             {
                                 float difTop, difLeft;
@@ -486,9 +532,10 @@ namespace m00npieces
                             }
                             GetOffTheStage();
                             break;
-                        }
+                    }
                     break;
-                        case 4: case 6:
+                case 4:
+                case 6:
                     switch (onStage)
                     {
                         default:
@@ -523,7 +570,7 @@ namespace m00npieces
                                 float difTop, difLeft;
                                 GatherGetAnchored(sel.ShapeRange[1], sel.ShapeRange[i], out difTop, out difLeft);
                                 sel.ShapeRange[i].IncrementTop(difTop);
-                                
+
                             }
                             onStage = Stage.Aligned;
                             btnGather.Image = global::m00npieces.Properties.Resources.alignCenter;
@@ -553,23 +600,23 @@ namespace m00npieces
                 default:
                     break;
             }
-            
+
         } // 모으기
-        public void GatherGetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left) 
+        public void GatherGetAnchored(PowerPoint.Shape first, PowerPoint.Shape second, out float top, out float left)
         {
 
             switch (intAnchorPoint)
             {
-                case 1:top = first.Top - second.Top;left = first.Left - second.Left;break;
-                case 2:top = first.Top - second.Top;left = first.Left - second.Left - (second.Width - first.Width) / 2;break;
-                case 3:top = first.Top - second.Top;left = first.Left - second.Left - (second.Width - first.Width);break;
-                case 4:top = first.Top - second.Top - (second.Height - first.Height) / 2;left = first.Left - second.Left;break;
-                case 5:top = first.Top - second.Top - (second.Height - first.Height) / 2;left = first.Left - second.Left - (second.Width - first.Width) / 2;break;
-                case 6:top = first.Top - second.Top - (second.Height - first.Height) / 2;left = first.Left - second.Left - (second.Width - first.Width);break;
-                case 7:top = first.Top - second.Top - (second.Height - first.Height);left = first.Left - second.Left;break;
-                case 8:top = first.Top - second.Top - (second.Height - first.Height);left = first.Left - second.Left - (second.Width - first.Width) / 2;break;
-                case 9:top = first.Top - second.Top - (second.Height - first.Height);left = first.Left - second.Left - (second.Width - first.Width);break;
-                default:top = first.Top - second.Top;left = first.Left - second.Left;break;
+                case 1: top = first.Top - second.Top; left = first.Left - second.Left; break;
+                case 2: top = first.Top - second.Top; left = first.Left - second.Left - (second.Width - first.Width) / 2; break;
+                case 3: top = first.Top - second.Top; left = first.Left - second.Left - (second.Width - first.Width); break;
+                case 4: top = first.Top - second.Top - (second.Height - first.Height) / 2; left = first.Left - second.Left; break;
+                case 5: top = first.Top - second.Top - (second.Height - first.Height) / 2; left = first.Left - second.Left - (second.Width - first.Width) / 2; break;
+                case 6: top = first.Top - second.Top - (second.Height - first.Height) / 2; left = first.Left - second.Left - (second.Width - first.Width); break;
+                case 7: top = first.Top - second.Top - (second.Height - first.Height); left = first.Left - second.Left; break;
+                case 8: top = first.Top - second.Top - (second.Height - first.Height); left = first.Left - second.Left - (second.Width - first.Width) / 2; break;
+                case 9: top = first.Top - second.Top - (second.Height - first.Height); left = first.Left - second.Left - (second.Width - first.Width); break;
+                default: top = first.Top - second.Top; left = first.Left - second.Left; break;
             }
         } // 앵커를 기준으로 모아줘야할 나머지 도형의 위치값 증감분을 계산
 
@@ -606,19 +653,31 @@ namespace m00npieces
             //{ tag.}
             //MessageBox.Show();
         }
-        
+
         // 앵커 버튼 클릭에 따른 동작 
         #region 
-        private void BtnTL_Click(object sender, RibbonControlEventArgs e) {intAnchorPoint = btnAnchor_Clicked(1);}
-        private void BtnTC_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(2);}
-        private void BtnTR_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(3);}
-        private void BtnML_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(4);}
-        private void BtnMC_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(5);}
-        private void BtnMR_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(6);}
-        private void BtnBL_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(7);}
-        private void BtnBC_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(8);}
-        private void BtnBR_Click(object sender, RibbonControlEventArgs e){intAnchorPoint = btnAnchor_Clicked(9);}
+        private void BtnTL_Click(object sender, RibbonControlEventArgs e) { intAnchorPoint = btnAnchor_Clicked(1); }
+        private void BtnTC_Click(object sender, RibbonControlEventArgs e) { intAnchorPoint = btnAnchor_Clicked(2); }
+        private void BtnTR_Click(object sender, RibbonControlEventArgs e) { intAnchorPoint = btnAnchor_Clicked(3); }
+        private void BtnML_Click(object sender, RibbonControlEventArgs e) { intAnchorPoint = btnAnchor_Clicked(4); }
+        private void BtnMC_Click(object sender, RibbonControlEventArgs e) { intAnchorPoint = btnAnchor_Clicked(5); }
+        private void BtnMR_Click(object sender, RibbonControlEventArgs e) { intAnchorPoint = btnAnchor_Clicked(6); }
+        private void BtnBL_Click(object sender, RibbonControlEventArgs e) { intAnchorPoint = btnAnchor_Clicked(7); }
+        private void BtnBC_Click(object sender, RibbonControlEventArgs e) { intAnchorPoint = btnAnchor_Clicked(8); }
+        private void BtnBR_Click(object sender, RibbonControlEventArgs e) { intAnchorPoint = btnAnchor_Clicked(9); }
         #endregion
+
+        private void BtnHide_Click(object sender, RibbonControlEventArgs e)
+        {
+            var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+            sel.ShapeRange.Visible = MsoTriState.msoFalse;
+        }
+
+        private void EbxLeft_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+            try { Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Left = float.Parse(ebxLeft.Text); } catch { }
+        }
+
     }
 
 
