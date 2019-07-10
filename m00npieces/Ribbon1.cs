@@ -671,7 +671,7 @@ namespace m00npieces
         private void BtnHide_Click(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
-            sel.ShapeRange.Visible = MsoTriState.msoFalse;
+            try { sel.ShapeRange.Visible = MsoTriState.msoFalse;} catch { }
         }
 
         private void EbxLeft_TextChanged(object sender, RibbonControlEventArgs e)
@@ -701,6 +701,12 @@ namespace m00npieces
                 sel.ShapeRange.Width = (cbxWidth.Checked == true) ? copied.Width : sel.ShapeRange.Width;
                 sel.ShapeRange.Height = (cbxHeight.Checked == true) ? copied.Height: sel.ShapeRange.Height;
             } catch { }
+        }
+
+        private void Button1_Click(object sender, RibbonControlEventArgs e)
+        {
+            var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+            //MessageBox.Show(sel.ShapeRange.Group);
         }
     }
 
