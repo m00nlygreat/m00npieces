@@ -77,10 +77,10 @@ namespace m00npieces
             btnMatchSize.Image = global::m00npieces.Properties.Resources.expand;
             btnMatchSize.Label = "크기맞춤";
 
-            btnGather.Image = global::m00npieces.Properties.Resources.alignMiddle;
+            buttonEnabler(intAnchorPoint);
 
-            origShapes.Clear(); // Stage 상태를 해제한다.
-        }
+            origShapes.Clear();
+        } // Stage 상태를 해제한다.
 
         private void EbxName_TextChanged(object sender, RibbonControlEventArgs e)
         {
