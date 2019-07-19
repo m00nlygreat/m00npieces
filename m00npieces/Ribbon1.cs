@@ -706,7 +706,22 @@ namespace m00npieces
         private void Button1_Click(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
-            //MessageBox.Show(sel.ShapeRange.Group);
+
+            int textWordWrap = sel.TextRange.Parent.WordWrap;
+            //int autoSize = sel.TextRange.Parent.AutoSize;
+            sel.TextRange.Parent.AutoSize = 1;
+            sel.TextRange.Parent.WordWrap = -1;
+            sel.TextRange.Parent.WordWrap = 0;
+            sel.TextRange.Parent.WordWrap = textWordWrap;
+            sel.TextRange.Parent.AutoSize = PowerPoint.PpAutoSize.ppAutoSizeShapeToFitText;
+            sel.TextRange.Parent.MarginBottom = 0;
+            sel.TextRange.Parent.MarginTop = 0;
+            sel.TextRange.Parent.MarginLeft = 0;
+            sel.TextRange.Parent.MarginRight = 0;
+
+            //MessageBox.Show(sel.TextRange.Parent.AutoSize.ToString());
+            //sel.TextRange.ParagraphFormat.WordWrap = MsoTriState.msoFalse;
+            //MessageBox.Show(sel.ChildShapeRange.ToString());
         }
     }
 
