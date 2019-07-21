@@ -14,7 +14,7 @@ namespace m00npieces
         int intAnchorPoint;
         List<SizeAndLocation> origShapes = new List<SizeAndLocation>();
         SizeAndLocation copied = new SizeAndLocation();
-        enum Stage { None, Swapped = 10, SizeMatched = 20, WidthMatched, Aligned = 30, AlignedTwice }
+        enum Stage { None, Swapped = 10, SizeMatched = 20, WidthMatched, Aligned = 30, AlignedTwice, TextAutoFitted = 40 }
         Stage onStage = Stage.None;
         // 버튼의 누름 상태를 표시하는 열거형
 
@@ -78,6 +78,8 @@ namespace m00npieces
             btnMatchSize.Label = "크기맞춤";
 
             buttonEnabler(intAnchorPoint);
+
+            btnTextAutofit.Label = "텍스트 딱맞게";
 
             origShapes.Clear();
         } // Stage 상태를 해제한다.
@@ -705,23 +707,38 @@ namespace m00npieces
 
         private void Button1_Click(object sender, RibbonControlEventArgs e)
         {
+
+
+        }
+
+        private void BtnTextAutofit_Click(object sender, RibbonControlEventArgs e)
+        {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
-
-            int textWordWrap = sel.TextRange.Parent.WordWrap;
-            //int autoSize = sel.TextRange.Parent.AutoSize;
-            sel.TextRange.Parent.AutoSize = 1;
-            sel.TextRange.Parent.WordWrap = -1;
-            sel.TextRange.Parent.WordWrap = 0;
-            sel.TextRange.Parent.WordWrap = textWordWrap;
-            sel.TextRange.Parent.AutoSize = PowerPoint.PpAutoSize.ppAutoSizeShapeToFitText;
-            sel.TextRange.Parent.MarginBottom = 0;
-            sel.TextRange.Parent.MarginTop = 0;
-            sel.TextRange.Parent.MarginLeft = 0;
-            sel.TextRange.Parent.MarginRight = 0;
-
-            //MessageBox.Show(sel.TextRange.Parent.AutoSize.ToString());
-            //sel.TextRange.ParagraphFormat.WordWrap = MsoTriState.msoFalse;
-            //MessageBox.Show(sel.ChildShapeRange.ToString());
+            PowerPoint.PpAutoSize autosize;
+            switch (onStage)
+            {
+                default:
+                    int textWordWrap = sel.TextRange.Parent.WordWrap;
+                    autosize = (PowerPoint.PpAutoSize)sel.TextRange.Parent.AutoSize;
+                    sel.TextRange.Parent.AutoSize = 1;
+                    sel.TextRange.Parent.WordWrap = -1;
+                    sel.TextRange.Parent.WordWrap = 0;
+                    sel.TextRange.Parent.WordWrap = textWordWrap;
+                    if (autosize == PowerPoint.PpAutoSize.ppAutoSizeMixed) { sel.TextRange2.Parent.AutoSize = MsoAutoSize.msoAutoSizeTextToFitShape; } else { sel.TextRange.Parent.AutoSize = (int)autosize; }
+                    onStage = Stage.TextAutoFitted;
+                    btnTextAutofit.Label = "여백 없애기";
+                    break;
+                case Stage.TextAutoFitted:
+                    autosize = (PowerPoint.PpAutoSize)sel.TextRange.Parent.AutoSize;
+                    sel.TextRange.Parent.MarginBottom = 0;
+                    sel.TextRange.Parent.MarginTop = 0;
+                    sel.TextRange.Parent.MarginLeft = 0;
+                    sel.TextRange.Parent.MarginRight = 0;
+                    sel.TextRange.Parent.AutoSize = 1;
+                    if (autosize == PowerPoint.PpAutoSize.ppAutoSizeMixed) { sel.TextRange2.Parent.AutoSize = MsoAutoSize.msoAutoSizeTextToFitShape; } else { sel.TextRange.Parent.AutoSize = (int)autosize; }
+                    GetOffTheStage();
+                    break;
+            }
         }
     }
 
