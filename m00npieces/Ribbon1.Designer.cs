@@ -69,10 +69,10 @@
             this.btnSync = this.Factory.CreateRibbonButton();
             this.btnAdjoinHorizontal = this.Factory.CreateRibbonButton();
             this.btnAdjoinVertical = this.Factory.CreateRibbonButton();
-            this.btnTextAutofit = this.Factory.CreateRibbonButton();
             this.btnHide = this.Factory.CreateRibbonButton();
             this.btnCopySizLoc = this.Factory.CreateRibbonButton();
             this.btnPasteSizLoc = this.Factory.CreateRibbonButton();
+            this.btnTextAutofit = this.Factory.CreateRibbonButton();
             this.btnFontAntiAlias = this.Factory.CreateRibbonButton();
             this.btnDoSomething = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
@@ -329,7 +329,7 @@
             this.btn_Expand.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btn_Expand.Enabled = false;
             this.btn_Expand.Image = global::m00npieces.Properties.Resources.stretchbyleft;
-            this.btn_Expand.KeyTip = "Z";
+            this.btn_Expand.KeyTip = "D";
             this.btn_Expand.Label = "끝선맞춤";
             this.btn_Expand.Name = "btn_Expand";
             this.btn_Expand.ShowImage = true;
@@ -372,17 +372,9 @@
             this.btnAdjoinVertical.ShowImage = true;
             this.btnAdjoinVertical.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnAdjoinVertical_Click);
             // 
-            // btnTextAutofit
-            // 
-            this.btnTextAutofit.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnTextAutofit.Label = "텍스트 딱맞게";
-            this.btnTextAutofit.Name = "btnTextAutofit";
-            this.btnTextAutofit.ShowImage = true;
-            this.btnTextAutofit.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnTextAutofit_Click);
-            // 
             // btnHide
             // 
-            this.btnHide.KeyTip = "V";
+            this.btnHide.KeyTip = "J";
             this.btnHide.Label = "Hide";
             this.btnHide.Name = "btnHide";
             this.btnHide.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnHide_Click);
@@ -402,6 +394,15 @@
             this.btnPasteSizLoc.Name = "btnPasteSizLoc";
             this.btnPasteSizLoc.ShowImage = true;
             this.btnPasteSizLoc.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnPasteSizLoc_Click);
+            // 
+            // btnTextAutofit
+            // 
+            this.btnTextAutofit.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnTextAutofit.KeyTip = "T";
+            this.btnTextAutofit.Label = "텍스트 딱맞게";
+            this.btnTextAutofit.Name = "btnTextAutofit";
+            this.btnTextAutofit.ShowImage = true;
+            this.btnTextAutofit.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnTextAutofit_Click);
             // 
             // btnFontAntiAlias
             // 

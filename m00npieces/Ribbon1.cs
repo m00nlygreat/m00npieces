@@ -675,12 +675,10 @@ namespace m00npieces
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             try { sel.ShapeRange.Visible = MsoTriState.msoFalse;} catch { }
         }
-
         private void EbxLeft_TextChanged(object sender, RibbonControlEventArgs e)
         {
             try { Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange.Left = float.Parse(ebxLeft.Text); } catch { }
         }
-
         private void BtnCopySizLoc_Click(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
@@ -692,7 +690,6 @@ namespace m00npieces
                 copied.Height = sel.ShapeRange.Height;
                     } catch { }
         }
-
         private void BtnPasteSizLoc_Click(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
@@ -704,21 +701,15 @@ namespace m00npieces
                 sel.ShapeRange.Height = (cbxHeight.Checked == true) ? copied.Height: sel.ShapeRange.Height;
             } catch { }
         }
-
-        private void Button1_Click(object sender, RibbonControlEventArgs e)
-        {
-
-
-        }
-
         private void BtnTextAutofit_Click(object sender, RibbonControlEventArgs e)
         {
             var sel = Globals.ThisAddIn.Application.ActiveWindow.Selection;
             PowerPoint.PpAutoSize autosize;
+            int textWordWrap;
             switch (onStage)
             {
                 default:
-                    int textWordWrap = sel.TextRange.Parent.WordWrap;
+                    textWordWrap = sel.TextRange.Parent.WordWrap;
                     autosize = (PowerPoint.PpAutoSize)sel.TextRange.Parent.AutoSize;
                     sel.TextRange.Parent.AutoSize = 1;
                     sel.TextRange.Parent.WordWrap = -1;
@@ -729,16 +720,25 @@ namespace m00npieces
                     btnTextAutofit.Label = "여백 없애기";
                     break;
                 case Stage.TextAutoFitted:
+                    textWordWrap = sel.TextRange.Parent.WordWrap;
                     autosize = (PowerPoint.PpAutoSize)sel.TextRange.Parent.AutoSize;
                     sel.TextRange.Parent.MarginBottom = 0;
                     sel.TextRange.Parent.MarginTop = 0;
                     sel.TextRange.Parent.MarginLeft = 0;
                     sel.TextRange.Parent.MarginRight = 0;
                     sel.TextRange.Parent.AutoSize = 1;
+                    sel.TextRange.Parent.WordWrap = -1;
+                    sel.TextRange.Parent.WordWrap = 0;
                     if (autosize == PowerPoint.PpAutoSize.ppAutoSizeMixed) { sel.TextRange2.Parent.AutoSize = MsoAutoSize.msoAutoSizeTextToFitShape; } else { sel.TextRange.Parent.AutoSize = (int)autosize; }
+                    sel.TextRange.Parent.WordWrap = textWordWrap;
                     GetOffTheStage();
                     break;
             }
+        }//텍스트 딱맞게
+        private void Button1_Click(object sender, RibbonControlEventArgs e)
+        {
+
+
         }
     }
 
