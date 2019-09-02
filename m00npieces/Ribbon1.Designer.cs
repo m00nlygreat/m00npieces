@@ -36,23 +36,6 @@
         {
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group2 = this.Factory.CreateRibbonGroup();
-            this.separator2 = this.Factory.CreateRibbonSeparator();
-            this.group3 = this.Factory.CreateRibbonGroup();
-            this.ebxName = this.Factory.CreateRibbonEditBox();
-            this.separator1 = this.Factory.CreateRibbonSeparator();
-            this.ebxLeft = this.Factory.CreateRibbonEditBox();
-            this.ebxTop = this.Factory.CreateRibbonEditBox();
-            this.separator4 = this.Factory.CreateRibbonSeparator();
-            this.ebxWidth = this.Factory.CreateRibbonEditBox();
-            this.ebxHeight = this.Factory.CreateRibbonEditBox();
-            this.separator5 = this.Factory.CreateRibbonSeparator();
-            this.cbxLeft = this.Factory.CreateRibbonCheckBox();
-            this.cbxTop = this.Factory.CreateRibbonCheckBox();
-            this.cbxWidth = this.Factory.CreateRibbonCheckBox();
-            this.cbxHeight = this.Factory.CreateRibbonCheckBox();
-            this.separator3 = this.Factory.CreateRibbonSeparator();
-            this.group1 = this.Factory.CreateRibbonGroup();
-            this.edtGoToSlide = this.Factory.CreateRibbonEditBox();
             this.btnTL = this.Factory.CreateRibbonToggleButton();
             this.btnML = this.Factory.CreateRibbonToggleButton();
             this.btnBL = this.Factory.CreateRibbonToggleButton();
@@ -62,18 +45,35 @@
             this.btnTR = this.Factory.CreateRibbonToggleButton();
             this.btnMR = this.Factory.CreateRibbonToggleButton();
             this.btnBR = this.Factory.CreateRibbonToggleButton();
+            this.separator2 = this.Factory.CreateRibbonSeparator();
             this.btnSwap = this.Factory.CreateRibbonButton();
             this.btnMatchSize = this.Factory.CreateRibbonButton();
             this.btn_Expand = this.Factory.CreateRibbonButton();
             this.btnGather = this.Factory.CreateRibbonButton();
             this.btnSync = this.Factory.CreateRibbonButton();
+            this.group3 = this.Factory.CreateRibbonGroup();
             this.btnAdjoinHorizontal = this.Factory.CreateRibbonButton();
             this.btnAdjoinVertical = this.Factory.CreateRibbonButton();
+            this.ebxName = this.Factory.CreateRibbonEditBox();
+            this.separator1 = this.Factory.CreateRibbonSeparator();
+            this.ebxLeft = this.Factory.CreateRibbonEditBox();
+            this.ebxTop = this.Factory.CreateRibbonEditBox();
             this.btnHide = this.Factory.CreateRibbonButton();
+            this.separator4 = this.Factory.CreateRibbonSeparator();
+            this.ebxWidth = this.Factory.CreateRibbonEditBox();
+            this.ebxHeight = this.Factory.CreateRibbonEditBox();
+            this.separator5 = this.Factory.CreateRibbonSeparator();
+            this.cbxLeft = this.Factory.CreateRibbonCheckBox();
+            this.cbxTop = this.Factory.CreateRibbonCheckBox();
             this.btnCopySizLoc = this.Factory.CreateRibbonButton();
+            this.cbxWidth = this.Factory.CreateRibbonCheckBox();
+            this.cbxHeight = this.Factory.CreateRibbonCheckBox();
             this.btnPasteSizLoc = this.Factory.CreateRibbonButton();
+            this.separator3 = this.Factory.CreateRibbonSeparator();
             this.btnTextAutofit = this.Factory.CreateRibbonButton();
             this.btnFontAntiAlias = this.Factory.CreateRibbonButton();
+            this.group1 = this.Factory.CreateRibbonGroup();
+            this.edtGoToSlide = this.Factory.CreateRibbonEditBox();
             this.btnDoSomething = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -112,132 +112,6 @@
             this.group2.KeyTip = "S";
             this.group2.Label = "Anchor";
             this.group2.Name = "group2";
-            // 
-            // separator2
-            // 
-            this.separator2.Name = "separator2";
-            // 
-            // group3
-            // 
-            this.group3.Items.Add(this.btnAdjoinHorizontal);
-            this.group3.Items.Add(this.btnAdjoinVertical);
-            this.group3.Items.Add(this.ebxName);
-            this.group3.Items.Add(this.separator1);
-            this.group3.Items.Add(this.ebxLeft);
-            this.group3.Items.Add(this.ebxTop);
-            this.group3.Items.Add(this.btnHide);
-            this.group3.Items.Add(this.separator4);
-            this.group3.Items.Add(this.ebxWidth);
-            this.group3.Items.Add(this.ebxHeight);
-            this.group3.Items.Add(this.separator5);
-            this.group3.Items.Add(this.cbxLeft);
-            this.group3.Items.Add(this.cbxTop);
-            this.group3.Items.Add(this.btnCopySizLoc);
-            this.group3.Items.Add(this.cbxWidth);
-            this.group3.Items.Add(this.cbxHeight);
-            this.group3.Items.Add(this.btnPasteSizLoc);
-            this.group3.Items.Add(this.separator3);
-            this.group3.Items.Add(this.btnTextAutofit);
-            this.group3.Items.Add(this.btnFontAntiAlias);
-            this.group3.Label = "Shape";
-            this.group3.Name = "group3";
-            // 
-            // ebxName
-            // 
-            this.ebxName.KeyTip = "N";
-            this.ebxName.Label = "이름";
-            this.ebxName.Name = "ebxName";
-            this.ebxName.SizeString = "12345678901234";
-            this.ebxName.Text = null;
-            this.ebxName.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EbxName_TextChanged);
-            // 
-            // separator1
-            // 
-            this.separator1.Name = "separator1";
-            // 
-            // ebxLeft
-            // 
-            this.ebxLeft.Label = "X";
-            this.ebxLeft.Name = "ebxLeft";
-            this.ebxLeft.SizeString = "1000.0000";
-            this.ebxLeft.Text = null;
-            this.ebxLeft.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EbxLeft_TextChanged);
-            // 
-            // ebxTop
-            // 
-            this.ebxTop.Label = "Y";
-            this.ebxTop.Name = "ebxTop";
-            this.ebxTop.SizeString = "1000.0000";
-            this.ebxTop.Text = null;
-            this.ebxTop.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EbxTop_TextChanged);
-            // 
-            // separator4
-            // 
-            this.separator4.Name = "separator4";
-            // 
-            // ebxWidth
-            // 
-            this.ebxWidth.Label = "W";
-            this.ebxWidth.Name = "ebxWidth";
-            this.ebxWidth.SizeString = "1000.0000";
-            this.ebxWidth.Text = null;
-            this.ebxWidth.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EbxWidth_TextChanged);
-            // 
-            // ebxHeight
-            // 
-            this.ebxHeight.Label = "H";
-            this.ebxHeight.Name = "ebxHeight";
-            this.ebxHeight.SizeString = "1000.0000";
-            this.ebxHeight.Text = null;
-            this.ebxHeight.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EbxHeight_TextChanged);
-            // 
-            // separator5
-            // 
-            this.separator5.Name = "separator5";
-            // 
-            // cbxLeft
-            // 
-            this.cbxLeft.Checked = true;
-            this.cbxLeft.Label = "X";
-            this.cbxLeft.Name = "cbxLeft";
-            // 
-            // cbxTop
-            // 
-            this.cbxTop.Checked = true;
-            this.cbxTop.Label = "Y";
-            this.cbxTop.Name = "cbxTop";
-            // 
-            // cbxWidth
-            // 
-            this.cbxWidth.Checked = true;
-            this.cbxWidth.Label = "W";
-            this.cbxWidth.Name = "cbxWidth";
-            // 
-            // cbxHeight
-            // 
-            this.cbxHeight.Checked = true;
-            this.cbxHeight.Label = "H";
-            this.cbxHeight.Name = "cbxHeight";
-            // 
-            // separator3
-            // 
-            this.separator3.Name = "separator3";
-            // 
-            // group1
-            // 
-            this.group1.Items.Add(this.edtGoToSlide);
-            this.group1.Items.Add(this.btnDoSomething);
-            this.group1.Label = "group1";
-            this.group1.Name = "group1";
-            // 
-            // edtGoToSlide
-            // 
-            this.edtGoToSlide.KeyTip = "X";
-            this.edtGoToSlide.Label = "Slide No.";
-            this.edtGoToSlide.Name = "edtGoToSlide";
-            this.edtGoToSlide.SizeString = "9999";
-            this.edtGoToSlide.Text = null;
-            this.edtGoToSlide.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EdtGoToSlide_changed);
             // 
             // btnTL
             // 
@@ -303,6 +177,10 @@
             this.btnBR.Name = "btnBR";
             this.btnBR.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnBR_Click);
             // 
+            // separator2
+            // 
+            this.separator2.Name = "separator2";
+            // 
             // btnSwap
             // 
             this.btnSwap.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -354,6 +232,31 @@
             this.btnSync.Visible = false;
             this.btnSync.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnSync_Click);
             // 
+            // group3
+            // 
+            this.group3.Items.Add(this.btnAdjoinHorizontal);
+            this.group3.Items.Add(this.btnAdjoinVertical);
+            this.group3.Items.Add(this.ebxName);
+            this.group3.Items.Add(this.separator1);
+            this.group3.Items.Add(this.ebxLeft);
+            this.group3.Items.Add(this.ebxTop);
+            this.group3.Items.Add(this.btnHide);
+            this.group3.Items.Add(this.separator4);
+            this.group3.Items.Add(this.ebxWidth);
+            this.group3.Items.Add(this.ebxHeight);
+            this.group3.Items.Add(this.separator5);
+            this.group3.Items.Add(this.cbxLeft);
+            this.group3.Items.Add(this.cbxTop);
+            this.group3.Items.Add(this.btnCopySizLoc);
+            this.group3.Items.Add(this.cbxWidth);
+            this.group3.Items.Add(this.cbxHeight);
+            this.group3.Items.Add(this.btnPasteSizLoc);
+            this.group3.Items.Add(this.separator3);
+            this.group3.Items.Add(this.btnTextAutofit);
+            this.group3.Items.Add(this.btnFontAntiAlias);
+            this.group3.Label = "Shape";
+            this.group3.Name = "group3";
+            // 
             // btnAdjoinHorizontal
             // 
             this.btnAdjoinHorizontal.Image = global::m00npieces.Properties.Resources.adjoinhorizontal;
@@ -372,12 +275,77 @@
             this.btnAdjoinVertical.ShowImage = true;
             this.btnAdjoinVertical.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnAdjoinVertical_Click);
             // 
+            // ebxName
+            // 
+            this.ebxName.KeyTip = "N";
+            this.ebxName.Label = "이름";
+            this.ebxName.Name = "ebxName";
+            this.ebxName.SizeString = "12345678901234";
+            this.ebxName.Text = null;
+            this.ebxName.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EbxName_TextChanged);
+            // 
+            // separator1
+            // 
+            this.separator1.Name = "separator1";
+            // 
+            // ebxLeft
+            // 
+            this.ebxLeft.Label = "X";
+            this.ebxLeft.Name = "ebxLeft";
+            this.ebxLeft.SizeString = "1000.0000";
+            this.ebxLeft.Text = null;
+            this.ebxLeft.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EbxLeft_TextChanged);
+            // 
+            // ebxTop
+            // 
+            this.ebxTop.Label = "Y";
+            this.ebxTop.Name = "ebxTop";
+            this.ebxTop.SizeString = "1000.0000";
+            this.ebxTop.Text = null;
+            this.ebxTop.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EbxTop_TextChanged);
+            // 
             // btnHide
             // 
             this.btnHide.KeyTip = "J";
             this.btnHide.Label = "Hide";
             this.btnHide.Name = "btnHide";
             this.btnHide.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnHide_Click);
+            // 
+            // separator4
+            // 
+            this.separator4.Name = "separator4";
+            // 
+            // ebxWidth
+            // 
+            this.ebxWidth.Label = "W";
+            this.ebxWidth.Name = "ebxWidth";
+            this.ebxWidth.SizeString = "1000.0000";
+            this.ebxWidth.Text = null;
+            this.ebxWidth.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EbxWidth_TextChanged);
+            // 
+            // ebxHeight
+            // 
+            this.ebxHeight.Label = "H";
+            this.ebxHeight.Name = "ebxHeight";
+            this.ebxHeight.SizeString = "1000.0000";
+            this.ebxHeight.Text = null;
+            this.ebxHeight.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EbxHeight_TextChanged);
+            // 
+            // separator5
+            // 
+            this.separator5.Name = "separator5";
+            // 
+            // cbxLeft
+            // 
+            this.cbxLeft.Checked = true;
+            this.cbxLeft.Label = "X";
+            this.cbxLeft.Name = "cbxLeft";
+            // 
+            // cbxTop
+            // 
+            this.cbxTop.Checked = true;
+            this.cbxTop.Label = "Y";
+            this.cbxTop.Name = "cbxTop";
             // 
             // btnCopySizLoc
             // 
@@ -387,6 +355,18 @@
             this.btnCopySizLoc.ShowImage = true;
             this.btnCopySizLoc.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnCopySizLoc_Click);
             // 
+            // cbxWidth
+            // 
+            this.cbxWidth.Checked = true;
+            this.cbxWidth.Label = "W";
+            this.cbxWidth.Name = "cbxWidth";
+            // 
+            // cbxHeight
+            // 
+            this.cbxHeight.Checked = true;
+            this.cbxHeight.Label = "H";
+            this.cbxHeight.Name = "cbxHeight";
+            // 
             // btnPasteSizLoc
             // 
             this.btnPasteSizLoc.KeyTip = "W";
@@ -394,6 +374,10 @@
             this.btnPasteSizLoc.Name = "btnPasteSizLoc";
             this.btnPasteSizLoc.ShowImage = true;
             this.btnPasteSizLoc.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnPasteSizLoc_Click);
+            // 
+            // separator3
+            // 
+            this.separator3.Name = "separator3";
             // 
             // btnTextAutofit
             // 
@@ -413,10 +397,27 @@
             this.btnFontAntiAlias.ShowImage = true;
             this.btnFontAntiAlias.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnFontAntiAlias_Clicked);
             // 
+            // group1
+            // 
+            this.group1.Items.Add(this.edtGoToSlide);
+            this.group1.Items.Add(this.btnDoSomething);
+            this.group1.Label = "group1";
+            this.group1.Name = "group1";
+            // 
+            // edtGoToSlide
+            // 
+            this.edtGoToSlide.KeyTip = "X";
+            this.edtGoToSlide.Label = "Slide No.";
+            this.edtGoToSlide.Name = "edtGoToSlide";
+            this.edtGoToSlide.SizeString = "9999";
+            this.edtGoToSlide.Text = null;
+            this.edtGoToSlide.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EdtGoToSlide_changed);
+            // 
             // btnDoSomething
             // 
             this.btnDoSomething.Label = "만능버튼";
             this.btnDoSomething.Name = "btnDoSomething";
+            this.btnDoSomething.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnDoSomething_Click);
             // 
             // Ribbon1
             // 

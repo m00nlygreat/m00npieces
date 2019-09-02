@@ -740,6 +740,11 @@ namespace m00npieces
 
 
         }
+
+        private void BtnDoSomething_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
     }
 
 
