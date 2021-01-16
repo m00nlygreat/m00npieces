@@ -34,6 +34,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ribbon1));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group2 = this.Factory.CreateRibbonGroup();
             this.btnTL = this.Factory.CreateRibbonToggleButton();
@@ -72,13 +73,13 @@
             this.separator3 = this.Factory.CreateRibbonSeparator();
             this.btnTextAutofit = this.Factory.CreateRibbonButton();
             this.btnFontAntiAlias = this.Factory.CreateRibbonButton();
-            this.group1 = this.Factory.CreateRibbonGroup();
+            this.grpSlide = this.Factory.CreateRibbonGroup();
             this.edtGoToSlide = this.Factory.CreateRibbonEditBox();
             this.btnDoSomething = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group2.SuspendLayout();
             this.group3.SuspendLayout();
-            this.group1.SuspendLayout();
+            this.grpSlide.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
@@ -86,7 +87,7 @@
             this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
             this.tab1.Groups.Add(this.group2);
             this.tab1.Groups.Add(this.group3);
-            this.tab1.Groups.Add(this.group1);
+            this.tab1.Groups.Add(this.grpSlide);
             this.tab1.KeyTip = "X";
             this.tab1.Label = "m00npieces";
             this.tab1.Name = "tab1";
@@ -382,6 +383,7 @@
             // btnTextAutofit
             // 
             this.btnTextAutofit.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnTextAutofit.Image = ((System.Drawing.Image)(resources.GetObject("btnTextAutofit.Image")));
             this.btnTextAutofit.KeyTip = "T";
             this.btnTextAutofit.Label = "텍스트 딱맞게";
             this.btnTextAutofit.Name = "btnTextAutofit";
@@ -397,12 +399,12 @@
             this.btnFontAntiAlias.ShowImage = true;
             this.btnFontAntiAlias.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnFontAntiAlias_Clicked);
             // 
-            // group1
+            // grpSlide
             // 
-            this.group1.Items.Add(this.edtGoToSlide);
-            this.group1.Items.Add(this.btnDoSomething);
-            this.group1.Label = "group1";
-            this.group1.Name = "group1";
+            this.grpSlide.Items.Add(this.edtGoToSlide);
+            this.grpSlide.Items.Add(this.btnDoSomething);
+            this.grpSlide.Label = "Other";
+            this.grpSlide.Name = "grpSlide";
             // 
             // edtGoToSlide
             // 
@@ -417,6 +419,7 @@
             // 
             this.btnDoSomething.Label = "만능버튼";
             this.btnDoSomething.Name = "btnDoSomething";
+            this.btnDoSomething.Visible = false;
             this.btnDoSomething.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnDoSomething_Click);
             // 
             // Ribbon1
@@ -431,8 +434,8 @@
             this.group2.PerformLayout();
             this.group3.ResumeLayout(false);
             this.group3.PerformLayout();
-            this.group1.ResumeLayout(false);
-            this.group1.PerformLayout();
+            this.grpSlide.ResumeLayout(false);
+            this.grpSlide.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -477,7 +480,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator5;
         internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator1;
         internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator3;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup grpSlide;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnTextAutofit;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnDoSomething;
     }

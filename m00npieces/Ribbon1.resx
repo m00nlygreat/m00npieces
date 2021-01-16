@@ -117,4 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnTextAutofit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        EwAACxMBAJqcGAAAAOZJREFUWEftk38NwjAQRisBB+AAHIADcAAOkIAEJCABCUhAAhKQAN9LeknTbCyX
+        dht/9CUv23Xd5bv9CI1GD594rIW7Xwswe4DJIaEJaV1LyOteBjc4cffz3LCIx18UBXhJ6tyj3MXzjYSV
+        ZC2HPS7SGwhwlctMJse9NC6S/TnFAWjcBROfJEEO8i7fyZoxWgB7BTyRs3xKAtzkWhrFAR6SECbTQhoA
+        uDbKK2AypjL5AGGyADTuogXIA/AhzhqA35L9rG1ZiBQF8ML/b4GMwX5sMCGtawl5/b/UTuju1wLMHqAx
+        ESF8AavJk6YXrRxhAAAAAElFTkSuQmCC
+</value>
+  </data>
 </root>
